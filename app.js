@@ -24,6 +24,9 @@ mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to DataBase"));
+
+
+
 app.use("/parking",parking );
 app.use("/club", clubRouter);
 app.use("/user", usersRouter);
