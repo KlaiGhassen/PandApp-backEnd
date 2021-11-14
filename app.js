@@ -10,6 +10,14 @@ var parking =require("./routes/parking")
 var clubRouter = require("./routes/club");
 var usersRouter = require("./routes/users");
 var eventRouter =require("./routes/eventPost")
+var syrveys = require("./routes/syrveys");
+var document = require("./routes/document");
+var lostPost = require("./routes/lostPost");
+var otherPost = require("./routes/otherPost");
+var authUser = require('./routes/auth');
+
+
+
 var app = express();
 
 // view engine setup
@@ -27,9 +35,17 @@ db.once("open", () => console.log("Connected to DataBase"));
 
 
 
+app.use('/auth', authUser);
+app.use("/user", usersRouter);
+
+
+app.use(verifyAdminToken);
+app.use("/otherpost",otherPost);
+app.use("/lostpost",lostPost);
+app.use("/document",document);
+app.use("/syveys",syrveys);
 app.use("/parking",parking );
 app.use("/club", clubRouter);
-app.use("/user", usersRouter);
 app.use("/event", eventRouter);
 
 
@@ -49,5 +65,31 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
 });
+
+
+
+const jwt = require("jsonwebtoken");
+
+function verifyAdminToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+
+  const token = authHeader && authHeader.split(" ")[1];
+  console.log("tokenn:" ,token);
+  if (token == null) return res.sendStatus(401); // if there isn't any token
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    if (err) {
+    return res.sendStatus(403)
+    }
+      req.body["payload"] = user;
+    next(); // pass the execution off to whatever request the client intended
+  });
+}
+function verifySuperAdminToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (req.body.payload.role !== 0) return res.sendStatus(401); // user not Super Admin
+  next();
+}
+
 
 module.exports = app;

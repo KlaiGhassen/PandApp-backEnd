@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     default:Date.now()
     },     
       userId: {
-        type: Number,
+        type: String,
         require: true,
         unique: true,
       },

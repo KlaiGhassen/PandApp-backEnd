@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
- 
-      publisheId:Number,
+      publisheId:String,
       publishedAt: {
         type: Date,
         required: true,
