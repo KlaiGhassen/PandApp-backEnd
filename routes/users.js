@@ -1,16 +1,18 @@
 var express = require("express");
 const User = require("../models/user");
 var router = express.Router();
-
-
 const multer = require("multer");
+
 const picsPath = require("path").resolve(__dirname, "../uploads");
+
+
 router.get("/download/:nom", function (req, res) {
   let nom = req.params.nom;
   const file = picsPath + "/" + nom;
   console.log(file,"hy")
   res.sendFile(file); // Set disposition and send it.
 });
+
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -49,7 +51,7 @@ router.post("/file", upload.single("file"), function (req, res, next) {
     return next(err);
   }
   res.json({
-    img:   req.file.filename,
+    img:  req.file.filename,
   });
 });
 
@@ -72,18 +74,23 @@ router.get("/:id", getUser, (req, res) => {
   res.json(res.user);
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", upload.single("profilePicture"), async (req, res, next) => {
+
+  if (!req.file) {
+    res.status(500);
+    return next(err);
+  } 
+  else{
   const user = new User({
     identifant: req.body.identifant,
     email: req.body.email,
     password: req.body.password,
     phoneNumber: req.body.phoneNumber,
-    profilePicture: req.body.profilePicture,
+    profilePicture: req.file.filename,
     FirstName: req.body.FirstName,
     LastName: req.body.LastName,
     verified: req.body.verified,
     className: req.body.className,
-    parkId: req.body.parkId,
   });
   console.log('hello2',user);
 
@@ -96,6 +103,7 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     res.status(400).json({message : error.message});
   }
+}
 });
 
 router.delete("/:id", getUser, async (req, res) => {
