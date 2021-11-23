@@ -63,7 +63,7 @@ run: `npm run test`
 
 ## Licenses
 
-<a href="https://img.shields.io/badge/License-MIT-brightgreen"><img alt="M.I.T. License use" src="https://img.shields.io/badge/License-MIT-brightgreen"></a>
+<a href="https://img.shields.io/badge/License-Esprit-brightgreen"><img alt="Esprit License use" src="https://img.shields.io/badge/License-Esprit-brightgreen"></a>
 
 ## contactin-formation
 
