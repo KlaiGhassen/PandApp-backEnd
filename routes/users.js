@@ -5,14 +5,12 @@ const multer = require("multer");
 
 const picsPath = require("path").resolve(__dirname, "../uploads");
 
-
 router.get("/download/:nom", function (req, res) {
   let nom = req.params.nom;
   const file = picsPath + "/" + nom;
-  console.log(file,"hy")
+  console.log(file, "hy");
   res.sendFile(file); // Set disposition and send it.
 });
-
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -42,22 +40,15 @@ var upload = multer({
   storage: storage,
 });
 
-
-
 router.post("/file", upload.single("file"), function (req, res, next) {
-
   if (!req.file) {
     res.status(500);
     return next(err);
   }
   res.json({
-    img:  req.file.filename,
+    img: req.file.filename,
   });
 });
-
-
-
-
 
 /* GET users listing. */
 router.get("/", async (req, res, next) => {
@@ -75,35 +66,31 @@ router.get("/:id", getUser, (req, res) => {
 });
 
 router.post("/", upload.single("profilePicture"), async (req, res, next) => {
-
   if (!req.file) {
     res.status(500);
     return next(err);
-  } 
-  else{
-  const user = new User({
-    identifant: req.body.identifant,
-    email: req.body.email,
-    password: req.body.password,
-    phoneNumber: req.body.phoneNumber,
-    profilePicture: req.file.filename,
-    FirstName: req.body.FirstName,
-    LastName: req.body.LastName,
-    verified: req.body.verified,
-    className: req.body.className,
-  });
-  console.log('hello2',user);
+  } else {
+    const user = new User({
+      identifant: req.body.identifant,
+      email: req.body.email,
+      password: req.body.password,
+      phoneNumber: req.body.phoneNumber,
+      profilePicture: req.file.filename,
+      FirstName: req.body.FirstName,
+      LastName: req.body.LastName,
+      verified: req.body.verified,
+      className: req.body.className,
+    });
+    console.log("hello2", user);
 
-  try {
-    const newUser = await user.save();
+    try {
+      const newUser = await user.save();
 
       res.status(201).json({ newUser });
-
-
-  } catch (error) {
-    res.status(400).json({message : error.message});
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   }
-}
 });
 
 router.delete("/:id", getUser, async (req, res) => {
@@ -115,7 +102,7 @@ router.delete("/:id", getUser, async (req, res) => {
   }
 });
 
-router.patch("/:id", getUser,  (req, res) => {
+router.patch("/:id", getUser, (req, res) => {
   if (req.body.identifant != null) {
     res.user.identifant = req.body.identifant;
   }
@@ -145,8 +132,7 @@ router.patch("/:id", getUser,  (req, res) => {
   }
   try {
     res.user.save().then((updateduser) => {
-      res.json(updateduser )
-
+      res.json(updateduser);
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
