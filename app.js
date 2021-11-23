@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //connection to data base
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost/pandapp", { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to DataBase"));
@@ -39,7 +39,7 @@ app.use('/auth', authUser);
 app.use("/user", usersRouter);
 
 
-app.use(verifyAdminToken);
+// app.use(verifyAdminToken);
 app.use("/otherpost",otherPost);
 app.use("/lostpost",lostPost);
 app.use("/document",document);
