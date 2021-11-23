@@ -68,7 +68,7 @@ run: `npm run test`
 
 ## contactin-formation
 
-Email Address: ghassen?klai@esprit.tn && yassine.zitoun@esprit.tn
+Email Address: ghassen.klai@esprit.tn && yassine.zitoun@esprit.tn
 
 [Ghassen's Github Profile](https://github.com/KlaiGhassen)
 [Yassine's Github Profile](https://github.com/zwayten)
