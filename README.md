@@ -33,7 +33,6 @@ this is the backend for our Ios Application PandApp and it is an express server 
 - cd into new directory (Must be in directory to work) EX. `cd iosBack`
 - Download Inquirer package by entering `npm i`
 - enter `npm run dev` to run nodemon
-- follow the prompt
 
 ## Usage
 
