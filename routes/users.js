@@ -67,9 +67,6 @@ router.get("/:id", getUser, (req, res) => {
 });
 //Post users
 router.post("/", async(req, res, next) => {
-    console.log(req.body);
-    console.log("fffffffffffffffffffffffff: ", req.params);
-
     const user = new User({
         identifant: req.body.identifant,
         email: req.body.email,
@@ -83,8 +80,6 @@ router.post("/", async(req, res, next) => {
         social: req.body.social,
         role: req.body.role
     });
-    console.log("hello2", user);
-
     try {
         const newUser = await user.save();
 

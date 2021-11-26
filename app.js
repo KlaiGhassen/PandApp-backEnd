@@ -15,7 +15,7 @@ var document = require("./routes/document");
 var lostPost = require("./routes/lostPost");
 var otherPost = require("./routes/otherPost");
 var authUser = require('./routes/auth');
-
+var uploadDownload = require('./routes/uploadDownload')
 
 
 var app = express();
@@ -34,18 +34,18 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to DataBase"));
 
 
-
+app.use('/upload',uploadDownload);
 app.use('/auth', authUser);
 app.use("/user", usersRouter);
+app.use("/club", clubRouter);
 
 
-// app.use(verifyAdminToken);
+app.use(verifyAdminToken);
 app.use("/otherpost",otherPost);
 app.use("/lostpost",lostPost);
 app.use("/document",document);
 app.use("/syveys",syrveys);
 app.use("/parking",parking );
-app.use("/club", clubRouter);
 app.use("/event", eventRouter);
 
 
@@ -81,6 +81,8 @@ function verifyAdminToken(req, res, next) {
     return res.sendStatus(403)
     }
       req.body["payload"] = user;
+      console.log(req.body);
+
     next(); // pass the execution off to whatever request the client intended
   });
 }

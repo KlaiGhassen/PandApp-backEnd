@@ -7,9 +7,10 @@ const userSchema = new mongoose.Schema({
     profilePicture: { type: String, default: "default.png" },
     FirstName: String,
     LastName: String,
-    social: Boolean,
+    social: {type: Boolean,default : false} ,
     role: String,
     verified: { type: Boolean, default: false },
     className: String,
+    description:String
 });
 module.exports = mongoose.model("user", userSchema);
