@@ -20,9 +20,13 @@ router.post("/", async(req, res, next) => {
         publisheId: req.body.publisheId,
         publishedAt: req.body.publishedAt,
         className: req.body.className,
-        coursName: req.body.coursName,
-        courseFile: req.body.courseFile,
+        module: req.body.module,
+        courseName: req.body.courseName,
+        courseFile: req.body.courseFile
+
+
     });
+    console.log(req.body.className);
 
     try {
         const newElearning = await elearning.save();
@@ -53,8 +57,8 @@ router.patch("/:id", getElearning, (req, res) => {
     if (req.body.className != null) {
         res.elearning.className = req.body.className;
     }
-    if (req.body.coursName != null) {
-        res.elearning.coursName = req.body.coursName;
+    if (req.body.courseName != null) {
+        res.elearning.courseName = req.body.courseName;
     }
     if (req.body.courseFile != null) {
         res.elearning.courseFile = req.body.courseFile;
