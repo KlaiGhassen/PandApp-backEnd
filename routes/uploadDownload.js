@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const multer = require("multer");
 
+const picsPath = require("path").resolve(__dirname, "../uploads");
 
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -22,9 +23,9 @@ var storage = multer.diskStorage({
             filetype = "image-";
             fileExtension = "jpeg";
         }
-        if(file.mimetype=== "pdf"){
-filetype="pdf-"
-fileExtension= "pdf"
+        if (file.mimetype === "pdf") {
+            filetype = "pdf-"
+            fileExtension = "pdf"
 
         }
 

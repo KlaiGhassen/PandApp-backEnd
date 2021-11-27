@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    price: Decimal,
+    price: Number,
     rate: Number,
 });
-module.exports = mongoose.model("eventsPost", userSchema);
+module.exports = mongoose.model("eventPost", userSchema);
