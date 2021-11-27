@@ -10,6 +10,7 @@ var parking = require("./routes/parking")
 var clubRouter = require("./routes/club");
 var usersRouter = require("./routes/users");
 var eventRouter = require("./routes/eventPost")
+var elearningRouter = require("./routes/Elearning")
 var syrveys = require("./routes/syrveys");
 var document = require("./routes/document");
 var lostPost = require("./routes/lostPost");
@@ -38,6 +39,7 @@ app.use('/upload', uploadDownload);
 app.use('/auth', authUser);
 app.use("/user", usersRouter);
 app.use("/club", clubRouter);
+app.use("/elearning", elearningRouter);
 
 
 //app.use(verifyAdminToken);
