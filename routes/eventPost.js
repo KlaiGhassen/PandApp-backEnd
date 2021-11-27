@@ -1,5 +1,5 @@
 var express = require("express");
-const Event = require("../models/eventsPost");
+const Event = require("../models/eventPost");
 var router = express.Router();
 
 router.get("/", async(req, res, next) => {
@@ -25,8 +25,9 @@ router.post("/", async(req, res, next) => {
         banner: req.body.banner,
         Time: req.body.Time,
         price: req.body.price,
-        descritption: req.body.descritption,
-        title: req.body.title
+        description: req.body.description,
+        title: req.body.title,
+        rate: req.body.rate
     });
 
     try {
@@ -77,6 +78,9 @@ router.patch("/:id", getEvent, (req, res) => {
     }
     if (req.body.title != null) {
         res.event.title = req.body.title;
+    }
+    if (req.body.rate != null) {
+        res.event.rate = req.body.rate;
     }
 
     try {

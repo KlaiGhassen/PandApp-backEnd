@@ -6,10 +6,11 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
-var parking =require("./routes/parking")
+var parking = require("./routes/parking")
 var clubRouter = require("./routes/club");
 var usersRouter = require("./routes/users");
-var eventRouter =require("./routes/eventPost")
+var eventRouter = require("./routes/eventPost")
+var elearningRouter = require("./routes/Elearning")
 var syrveys = require("./routes/syrveys");
 var document = require("./routes/document");
 var lostPost = require("./routes/lostPost");
@@ -28,42 +29,43 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //connection to data base
-mongoose.connect(process.env.DATABASE_URL , { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to DataBase"));
 
 
-app.use('/upload',uploadDownload);
+app.use('/upload', uploadDownload);
 app.use('/auth', authUser);
 app.use("/user", usersRouter);
 app.use("/club", clubRouter);
+app.use("/elearning", elearningRouter);
 
 
-app.use(verifyAdminToken);
-app.use("/otherpost",otherPost);
-app.use("/lostpost",lostPost);
-app.use("/document",document);
-app.use("/syveys",syrveys);
-app.use("/parking",parking );
+//app.use(verifyAdminToken);
+app.use("/otherpost", otherPost);
+app.use("/lostpost", lostPost);
+app.use("/document", document);
+app.use("/syveys", syrveys);
+app.use("/parking", parking);
 app.use("/event", eventRouter);
 
 
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+app.use(function(req, res, next) {
+    next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.json({
-    message: err.message,
-    error: req.app.get("env") === "development" ? err : {},
-  });
-  // render the error page
-  res.status(err.status || 500);
+app.use(function(err, req, res, next) {
+    // set locals, only providing error in development
+    res.json({
+        message: err.message,
+        error: req.app.get("env") === "development" ? err : {},
+    });
+    // render the error page
+    res.status(err.status || 500);
 });
 
 
@@ -71,26 +73,27 @@ app.use(function (err, req, res, next) {
 const jwt = require("jsonwebtoken");
 
 function verifyAdminToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
+    const authHeader = req.headers["authorization"];
 
-  const token = authHeader && authHeader.split(" ")[1];
-  console.log("tokenn:" ,token);
-  if (token == null) return res.sendStatus(401); // if there isn't any token
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    if (err) {
-    return res.sendStatus(403)
-    }
-      req.body["payload"] = user;
-      console.log(req.body);
+    const token = authHeader && authHeader.split(" ")[1];
+    console.log("tokenn:", token);
+    if (token == null) return res.sendStatus(401); // if there isn't any token
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+        if (err) {
+            return res.sendStatus(403)
+        }
+        req.body["payload"] = user;
+        console.log(req.body);
 
-    next(); // pass the execution off to whatever request the client intended
-  });
+        next(); // pass the execution off to whatever request the client intended
+    });
 }
+
 function verifySuperAdminToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (req.body.payload.role !== 0) return res.sendStatus(401); // user not Super Admin
-  next();
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (req.body.payload.role !== 0) return res.sendStatus(401); // user not Super Admin
+    next();
 }
 
 

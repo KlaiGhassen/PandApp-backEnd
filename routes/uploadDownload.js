@@ -2,29 +2,32 @@ var express = require("express");
 var router = express.Router();
 const multer = require("multer");
 
+const picsPath = require("path").resolve(__dirname, "../uploads");
+
 var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads");
-  },
-  filename: (req, file, cb) => {
-    var filetype = "";
-    var fileExtension = "";
-    if (file.mimetype === "image/gif") {
-      filetype = "image-";
-      fileExtension = "gif";
-    }
-    if (file.mimetype === "image/png") {
-      filetype = "image-";
-      fileExtension = "png";
-    }
-    if (file.mimetype === "image/jpeg") {
-      filetype = "image-";
-      fileExtension = "jpeg";
-    }
-    if (file.mimetype === "pdf") {
-      filetype = "pdf-";
-      fileExtension = "pdf";
-    }
+    destination: (req, file, cb) => {
+        cb(null, "./uploads");
+    },
+    filename: (req, file, cb) => {
+        var filetype = "";
+        var fileExtension = "";
+        if (file.mimetype === "image/gif") {
+            filetype = "image-";
+            fileExtension = "gif";
+        }
+        if (file.mimetype === "image/png") {
+            filetype = "image-";
+            fileExtension = "png";
+        }
+        if (file.mimetype === "image/jpeg") {
+            filetype = "image-";
+            fileExtension = "jpeg";
+        }
+        if (file.mimetype === "pdf") {
+            filetype = "pdf-"
+            fileExtension = "pdf"
+
+        }
 
     cb(null, filetype + Date.now() + "." + fileExtension);
     h = cb;
