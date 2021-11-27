@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { Decimal } = require("mongoose/lib/schema/index");
 const userSchema = new mongoose.Schema({
     publisheId: String,
     publishedAt: { type: Date, default: Date.now() },
