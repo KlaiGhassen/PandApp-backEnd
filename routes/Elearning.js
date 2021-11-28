@@ -26,7 +26,7 @@ router.post("/", async(req, res, next) => {
 
 
     });
-    console.log(req.body.className);
+
 
     try {
         const newElearning = await elearning.save();
