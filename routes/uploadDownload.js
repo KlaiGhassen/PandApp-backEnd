@@ -12,6 +12,7 @@ var storage = multer.diskStorage({
         console.log()
         var filetype = "";
         var fileExtension = "";
+        console.log("file###################################################################", file.mimetype)
         if (file.mimetype === "image/gif") {
             filetype = "image-";
             fileExtension = "gif";
@@ -24,7 +25,7 @@ var storage = multer.diskStorage({
             filetype = "image-";
             fileExtension = "jpeg";
         }
-        if (file.mimetype === "pdf") {
+        if (file.mimetype === "application/pdf") {
             filetype = "pdf-"
             fileExtension = "pdf"
 
