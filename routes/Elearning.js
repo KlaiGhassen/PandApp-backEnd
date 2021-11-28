@@ -10,10 +10,15 @@ router.get("/", async(req, res, next) => {
         res.status(500).json({ message: error.message });
     }
 });
+router.get("/byModule/:module", getLearningByModule, (req, res) => {
+    res.json(res.elearning);
+});
+
 
 router.get("/:id", getElearning, (req, res) => {
     res.json(res.elearning);
 });
+
 
 router.post("/", async(req, res, next) => {
     const elearning = new Elearning({
@@ -75,7 +80,20 @@ router.patch("/:id", getElearning, (req, res) => {
 
 async function getElearning(req, res, next) {
     try {
-        elearning = await elearning.findById(req.params.id);
+        elearning = await Elearning.findById(req.params.id);
+        if (elearning == null) {
+            return res.status(404).json({ message: "cannot find elearning" });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: err.message });
+    }
+    res.elearning = elearning;
+    next();
+}
+
+async function getLearningByModule(req, res, next) {
+    try {
+        elearning = await Elearning.find( {module : req.params.module});
         if (elearning == null) {
             return res.status(404).json({ message: "cannot find elearning" });
         }
