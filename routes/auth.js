@@ -25,7 +25,7 @@ router.post('/reset', (req, res) => {
                     from: 'pimmpim40@gmail.com',
                     to: compte.email,
                     subject: 'Change password',
-                    text: 'click here to change password: http://localhost:4200/change/' + compte.id
+                    text: 'el mailer ye5dem jawou nice ' + compte.id
                 };
                 transporter.sendMail(mailOptions, async function(error, info) {
                     if (error) {
