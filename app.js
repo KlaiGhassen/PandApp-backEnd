@@ -16,6 +16,7 @@ var document = require("./routes/document");
 var lostPost = require("./routes/lostPost");
 var otherPost = require("./routes/otherPost");
 var authUser = require('./routes/auth');
+var authClub = require('./routes/authClub');
 var uploadDownload = require('./routes/uploadDownload')
 
 
@@ -37,6 +38,7 @@ db.once("open", () => console.log("Connected to DataBase"));
 
 app.use('/upload', uploadDownload);
 app.use('/auth', authUser);
+app.use('/authClub', authClub);
 app.use("/user", usersRouter);
 app.use("/club", clubRouter);
 app.use("/elearning", elearningRouter);
