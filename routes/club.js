@@ -20,7 +20,7 @@ router.post("/", async(req, res, next) => {
         clubName: req.body.clubName,
         clubOwner: req.body.clubOwner,
         clubLogo: req.body.clubLogo,
-        verifed: req.body.verifed,
+        verified: req.body.verified,
         passward: req.body.passward,
         login: req.body.login
     });
@@ -56,8 +56,8 @@ router.patch("/:id", getClub, (req, res) => {
   if (req.body.clubLogo != null) {
     res.club.clubLogo = req.body.clubLogo;
   }
-  if (req.body.verifed != null) {
-    res.club.verifed = req.body.verifed;
+  if (req.body.verified != null) {
+    res.club.verified = req.body.verified;
   }
   if (req.body.login != null) {
     res.club.login = req.body.login;

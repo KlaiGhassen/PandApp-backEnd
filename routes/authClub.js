@@ -52,6 +52,68 @@ router.post("/reset", (req, res) => {
   }
 });
 
+
+router.post("/verfy", (req, res) => {
+    val = Math.floor(1000 + Math.random() * 9000);
+    console.log(val);
+  
+    try {
+      let email = req.body.email;
+      clubDb.find({ email: email }).then((user) => {
+        compte = user[0];
+        if (compte) {
+          var transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: "pimmpim40@gmail.com",
+              pass: "123456789azer@@",
+            },
+          });
+          var mailOptions = {
+            from: "pimmpim40@gmail.com",
+            to: compte.email,
+            subject: "Reset passward",
+            text: "your verfication code is :" + val,
+          };
+          transporter.sendMail(mailOptions, async function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log("Email sent: " + info.response);
+            }
+          });
+  
+          res.json({
+            isemail: true,
+          });
+        } else {
+          res.json({
+            isemail: false,
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+
+  router.patch("/verfy", getClubByEmail, async (req, res) => {
+     if (req.body.code == val) {
+      res.club.verified = true
+    }
+      try {
+        res.club.save().then((updateduser) => {
+          res.json(
+            updateduser
+          );
+        });
+      } catch (error) {
+        res.status(400).json({ message: error.message });
+      }
+    
+  });
+
 router.post("/socauth", (req, res) => {
   try {
     let newUser = new clubDb({

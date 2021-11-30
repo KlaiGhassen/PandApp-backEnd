@@ -3,7 +3,7 @@ const userSchema = new mongoose.Schema({
       clubName:String,
       clubOwner:Number,
       clubLogo:String,
-      verifed:Boolean,
+      verified:Boolean,
       passward:String,
       login:String
 });

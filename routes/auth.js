@@ -73,7 +73,7 @@ router.post("/verfiy", (req, res) => {
           from: "pimmpim40@gmail.com",
           to: compte.email,
           subject: "Reset password",
-          text: "your verification code is :" + val,
+          text: "your verification code is : " + val,
         };
         transporter.sendMail(mailOptions, async function (error, info) {
           if (error) {
@@ -82,7 +82,6 @@ router.post("/verfiy", (req, res) => {
             console.log("Email sent: " + info.response);
           }
         });
-
         res.json({
           isemail: true,
         });
@@ -96,6 +95,24 @@ router.post("/verfiy", (req, res) => {
     console.log(error);
   }
 });
+
+router.patch("/verfy", getUserEmail, async (req, res) => {
+    
+   if (req.body.code == val) {
+    res.user.verified = true;
+  }
+    try {
+      res.user.save().then((updateduser) => {
+        res.json(
+          updateduser
+        );
+      });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+ 
+});
+
 
 
 router.post("/socauth", (req, res) => {
