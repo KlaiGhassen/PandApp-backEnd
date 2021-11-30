@@ -28,7 +28,7 @@ router.post("/reset", (req, res) => {
           from: "pimmpim40@gmail.com",
           to: compte.email,
           subject: "Reset passward",
-          text: "your code is :" + val,
+          text: "your reset code is :" + val,
         };
         transporter.sendMail(mailOptions, async function (error, info) {
           if (error) {
@@ -53,7 +53,7 @@ router.post("/reset", (req, res) => {
 });
 
 
-router.post("/verfy", (req, res) => {
+router.post("/verified", (req, res) => {
     val = Math.floor(1000 + Math.random() * 9000);
     console.log(val);
   
@@ -98,7 +98,7 @@ router.post("/verfy", (req, res) => {
   });
 
 
-  router.patch("/verfy", getClubByEmail, async (req, res) => {
+  router.patch("/verified", getClubByEmail, async (req, res) => {
      if (req.body.code == val) {
       res.club.verified = true
     }

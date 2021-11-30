@@ -28,7 +28,7 @@ router.post("/reset", (req, res) => {
           from: "pimmpim40@gmail.com",
           to: compte.email,
           subject: "Reset password",
-          text: "your code is :" + val,
+          text: "your reset code is :" + val,
           html: "<p>HTML version of the message</p>"
         };
         transporter.sendMail(mailOptions, async function (error, info) {
@@ -55,7 +55,7 @@ router.post("/reset", (req, res) => {
 
 
 
-router.post("/verfiy", (req, res) => {
+router.post("/verified", (req, res) => {
   val = Math.floor(1000 + Math.random() * 9000);
   try {
     let email = req.body.email;
@@ -72,7 +72,7 @@ router.post("/verfiy", (req, res) => {
         var mailOptions = {
           from: "pimmpim40@gmail.com",
           to: compte.email,
-          subject: "Reset password",
+          subject: "Verify email",
           text: "your verification code is : " + val,
         };
         transporter.sendMail(mailOptions, async function (error, info) {
@@ -96,10 +96,13 @@ router.post("/verfiy", (req, res) => {
   }
 });
 
-router.patch("/verfy", getUserEmail, async (req, res) => {
+router.patch("/verified", getUserEmail, async (req, res) => {
     
    if (req.body.code == val) {
+     console.log(res.user)
     res.user.verified = true;
+    console.log(res.user)
+
   }
     try {
       res.user.save().then((updateduser) => {
