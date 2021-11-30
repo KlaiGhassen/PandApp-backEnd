@@ -5,6 +5,8 @@ const userSchema = new mongoose.Schema({
     clubLogo: String,
     verified: Boolean,
     password: String,
-    login: String
+    login: String,
+    description:String,
+    social: {type: Boolean ,default : false} ,
 });
 module.exports = mongoose.model("club", userSchema);
