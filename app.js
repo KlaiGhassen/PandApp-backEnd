@@ -42,7 +42,7 @@ app.use("/club", clubRouter);
 app.use("/elearning", elearningRouter);
 
 
-//app.use(verifyAdminToken);
+app.use(verifyAdminToken);
 app.use("/otherpost", otherPost);
 app.use("/lostpost", lostPost);
 app.use("/document", document);
