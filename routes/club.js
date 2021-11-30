@@ -21,7 +21,7 @@ router.post("/", async(req, res, next) => {
         clubOwner: req.body.clubOwner,
         clubLogo: req.body.clubLogo,
         verified: req.body.verified,
-        passward: req.body.passward,
+        password: req.body.password,
         login: req.body.login
     });
 
@@ -44,24 +44,24 @@ router.delete("/:id", getClub, async(req, res) => {
 });
 
 router.patch("/:id", getClub, (req, res) => {
-  if (req.body.clubName != null) {
-    res.club.clubName = req.body.clubName;
-  }
-  if (req.body.clubOwner != null) {
-    res.club.clubOwner = req.body.clubOwner;
-  }
-  if (req.body.passward != null) {
-    res.club.passward = req.body.passward;
-  }
-  if (req.body.clubLogo != null) {
-    res.club.clubLogo = req.body.clubLogo;
-  }
-  if (req.body.verified != null) {
-    res.club.verified = req.body.verified;
-  }
-  if (req.body.login != null) {
-    res.club.login = req.body.login;
-  }
+    if (req.body.clubName != null) {
+        res.club.clubName = req.body.clubName;
+    }
+    if (req.body.clubOwner != null) {
+        res.club.clubOwner = req.body.clubOwner;
+    }
+    if (req.body.password != null) {
+        res.club.password = req.body.password;
+    }
+    if (req.body.clubLogo != null) {
+        res.club.clubLogo = req.body.clubLogo;
+    }
+    if (req.body.verified != null) {
+        res.club.verified = req.body.verified;
+    }
+    if (req.body.login != null) {
+        res.club.login = req.body.login;
+    }
 
     try {
         res.club.save().then((updatedClub) => {
