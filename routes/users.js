@@ -101,6 +101,7 @@ router.delete("/:id", getUser, async (req, res) => {
 });
 
 router.patch("/:id", getUser, (req, res) => {
+    
   if (req.body.identifant != null) {
     res.user.identifant = req.body.identifant;
   }

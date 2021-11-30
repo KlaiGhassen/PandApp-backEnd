@@ -50,8 +50,8 @@ router.patch("/:id", getClub, (req, res) => {
   if (req.body.clubOwner != null) {
     res.club.clubOwner = req.body.clubOwner;
   }
-  if (req.body.password != null) {
-    res.club.password = req.body.password;
+  if (req.body.passward != null) {
+    res.club.passward = req.body.passward;
   }
   if (req.body.clubLogo != null) {
     res.club.clubLogo = req.body.clubLogo;

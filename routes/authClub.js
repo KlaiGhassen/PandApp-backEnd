@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const userdb = require("../models/user");
+const clubDb = require("../models/club");
 const router = express.Router();
 var nodemailer = require("nodemailer");
 
@@ -14,7 +14,7 @@ router.post("/reset", (req, res) => {
 
   try {
     let email = req.body.email;
-    userdb.find({ email: email }).then((user) => {
+    clubDb.find({ email: email }).then((user) => {
       compte = user[0];
       if (compte) {
         var transporter = nodemailer.createTransport({
@@ -27,9 +27,8 @@ router.post("/reset", (req, res) => {
         var mailOptions = {
           from: "pimmpim40@gmail.com",
           to: compte.email,
-          subject: "Reset password",
+          subject: "Reset passward",
           text: "your code is :" + val,
-          html: "<p>HTML version of the message</p>"
         };
         transporter.sendMail(mailOptions, async function (error, info) {
           if (error) {
@@ -52,55 +51,10 @@ router.post("/reset", (req, res) => {
     console.log(error);
   }
 });
-
-
-
-router.post("/verfiy", (req, res) => {
-  val = Math.floor(1000 + Math.random() * 9000);
-  try {
-    let email = req.body.email;
-    userdb.find({ email: email }).then((user) => {
-      compte = user[0];
-      if (compte) {
-        var transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: "pimmpim40@gmail.com",
-            pass: "123456789azer@@",
-          },
-        });
-        var mailOptions = {
-          from: "pimmpim40@gmail.com",
-          to: compte.email,
-          subject: "Reset password",
-          text: "your verification code is :" + val,
-        };
-        transporter.sendMail(mailOptions, async function (error, info) {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log("Email sent: " + info.response);
-          }
-        });
-
-        res.json({
-          isemail: true,
-        });
-      } else {
-        res.json({
-          isemail: false,
-        });
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 
 router.post("/socauth", (req, res) => {
   try {
-    let newUser = new userdb({
+    let newUser = new clubDb({
       nom: req.body.nom,
       email: req.body.email,
       prenom: req.body.prenom,
@@ -108,13 +62,13 @@ router.post("/socauth", (req, res) => {
       social: true,
       verified: true,
     });
-    userdb.find({ email: newUser.email }).then((sss) => {
-      ss = sss[0];
+    clubDb.find({ email: newUser.email }).then((club) => {
+      ss = club[0];
       console.log(ss);
       if (ss) {
         let payload = {
           id: ss.id,
-          role: ss.role,
+          role: ss.clubOwner,
         };
         const token = jwt.sign(payload, process.env.TOKEN_SECRET);
         res.json({
@@ -128,7 +82,7 @@ router.post("/socauth", (req, res) => {
           if (compte) {
             let payload = {
               id: compte.id,
-              role: compte.role,
+              role: compte.clubOwner,
             };
             console.log(payload);
             const token = jwt.sign(payload, process.env.TOKEN_SECRET);
@@ -158,33 +112,27 @@ router.post("/", (req, res) => {
   try {
     console.log(req.body);
     let email = req.body.email;
-    let password = req.body.password;
-    console.log(email, password);
-    userdb.find({ email: email, password: password }).then((user) => {
-      compte = user[0];
+    let passward = req.body.passward;
+    console.log(email, passward);
+    clubDb.find({ email: email, passward: passward }).then((Club) => {
+      compte = Club[0];
       if (compte) {
         let payload = {
           id: compte.id,
-          role: compte.role,
+          role: compte.clubOwner,
         };
         console.log(payload);
         const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-        let userLogin = {
+        let clubLogin = {
           token: token,
-          identifant: compte.identifant,
-          email: compte.email,
-          password: compte.password,
-          phoneNumber: compte.phoneNumber,
-          profilePicture: compte.profilePicture,
-          FirstName: compte.FirstName,
-          LastName: compte.LastName,
-          social: compte.social,
-          role: compte.role,
-          verified: compte.verified,
-          className: compte.className,
-          description: compte.description,
+          clubName: compte.clubName,
+          clubOwner: compte.clubOwner,
+          passward: compte.passward,
+          clubLogo: compte.clubLogo,
+          verifed: compte.verifed,
+          login: compte.login,
         };
-        res.json(userLogin);
+        res.json(clubLogin);
       } else {
         res.status(401);
         res.json({
@@ -199,15 +147,13 @@ router.post("/", (req, res) => {
   }
 });
 
-router.patch("/reset", getUserEmail, async (req, res) => {
-  if (req.body.password != null) {
-    
+router.patch("/reset", getClubByEmail, async (req, res) => {
+  if (req.body.passward != null) {
    if (req.body.code == val) {
-    res.user.password = req.body.password;
+    res.club.passward = req.body.passward;
   }
-
     try {
-      res.user.save().then((updateduser) => {
+      res.club.save().then((updateduser) => {
         res.json(
           updateduser
         );
@@ -220,17 +166,16 @@ router.patch("/reset", getUserEmail, async (req, res) => {
    }
 });
 
-
-async function getUserEmail(req, res, next) {
+async function getClubByEmail(req, res, next) {
   try {
-    user = await userdb.find({ email : req.body.email });
-    if (user == null) {
+    club = await clubDb.find({ email : req.body.email });
+    if (club == null) {
       return res.status(404).json({ message: "cannot find user" });
     }
   } catch (error) {
     return res.status(500).json({ message: err.message });
   }
-  res.user = user[0];
+  res.club = club[0];
   next();
 }
 
