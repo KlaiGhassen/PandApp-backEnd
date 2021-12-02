@@ -17,7 +17,7 @@ router.post("/reset", (req, res) => {
         clubDb.find({ login: login }).then((user) => {
             compte = user[0];
             console.log(compte)
-            if (compte?.login) {
+            if (compte) {
                 var transporter = nodloginer.createTransport({
                     service: "gmail",
                     auth: {
@@ -29,16 +29,15 @@ router.post("/reset", (req, res) => {
                     from: "pimmpim40@gmail.com",
                     to: compte.login,
                     subject: "Reset password",
-                    html:templateReset(val),
-                              
-                    attachments: [
-                                 {
-                                  filename: "final_panda_ios.png",
-                                   path: "./final_panda_ios.png",
-                                   cid:'pandaplogo.ee'
-                                 },
-                    
-                               ],
+                    html: templateReset(val),
+
+                    attachments: [{
+                            filename: "final_panda_ios.png",
+                            path: "./final_panda_ios.png",
+                            cid: 'pandaplogo.ee'
+                        },
+
+                    ],
                 };
                 transporter.sendMail(mailOptions, async function(error, info) {
                     if (error) {
@@ -66,70 +65,70 @@ router.post("/reset", (req, res) => {
 router.post("/verified", (req, res) => {
     val = Math.floor(1000 + Math.random() * 9000);
     console.log(val);
-  
+
     try {
-      let login = req.body.login;
-      clubDb.find({ login: login }).then((user) => {
-        compte = user[0];
-        if (compte) {
-          var transporter = nodloginer.createTransport({
-            service: "gmail",
-            auth: {
-              user: "pimmpim40@gmail.com",
-              pass: "123456789azer@@",
-            },
-          });
-          var mailOptions = {
-            from: "pimmpim40@gmail.com",
-            to: compte.login,
-            subject: "Reset password",
-            html:templateVerify(val),
-                       attachments: [
-                         {
-                          filename: "final_panda_ios.png",
-                           path: "./final_panda_ios.png",
-                           cid:'pandaplogo.ee'
-                         },
-            
-                       ],          };
-          transporter.sendMail(mailOptions, async function (error, info) {
-            if (error) {
-              console.log(error);
+        let login = req.body.login;
+        clubDb.find({ login: login }).then((user) => {
+            compte = user[0];
+            if (compte) {
+                var transporter = nodloginer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: "pimmpim40@gmail.com",
+                        pass: "123456789azer@@",
+                    },
+                });
+                var mailOptions = {
+                    from: "pimmpim40@gmail.com",
+                    to: compte.login,
+                    subject: "Reset password",
+                    html: templateVerify(val),
+                    attachments: [{
+                            filename: "final_panda_ios.png",
+                            path: "./final_panda_ios.png",
+                            cid: 'pandaplogo.ee'
+                        },
+
+                    ],
+                };
+                transporter.sendMail(mailOptions, async function(error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log("Email sent: " + info.response);
+                    }
+                });
+
+                res.json({
+                    islogin: true,
+                });
             } else {
-              console.log("Email sent: " + info.response);
+                res.json({
+                    islogin: false,
+                });
             }
-          });
-  
-          res.json({
-            islogin: true,
-          });
-        } else {
-          res.json({
-            islogin: false,
-          });
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-
-  router.patch("/verified", getClubByEmail, async (req, res) => {
-     if (req.body.code == val) {
-      res.club.verified = true
-    }
-      try {
-        res.club.save().then((updateduser) => {
-          res.json(
-            updateduser
-          );
         });
-      } catch (error) {
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+
+router.patch("/verified", getClubByEmail, async(req, res) => {
+    if (req.body.code == val) {
+        res.club.verified = true
+    }
+    try {
+        res.club.save().then((updateduser) => {
+            res.json(
+                updateduser
+            );
+        });
+    } catch (error) {
         res.status(400).json({ message: error.message });
-      }
-    
-  });
+    }
+
+});
 
 router.post("/socauth", (req, res) => {
     try {
@@ -138,6 +137,7 @@ router.post("/socauth", (req, res) => {
             login: req.body.login,
             prenom: req.body.prenom,
             image: req.body.image,
+            description: req.body.description,
             social: true,
             verified: true,
         });
@@ -208,6 +208,7 @@ router.post("/", (req, res) => {
                     clubOwner: compte.clubOwner,
                     password: compte.password,
                     clubLogo: compte.clubLogo,
+                    description: compte.description,
                     verified: compte.verified,
                     login: compte.login
                 };
@@ -798,8 +799,9 @@ function templateReset(val) {
   </html>
   
   `
-  }
-  function templateVerify(val){
+}
+
+function templateVerify(val) {
     return `
   <!DOCTYPE html >
   <html>
@@ -1342,6 +1344,7 @@ function templateReset(val) {
   
   </html>
   
-  `}
-  
+  `
+}
+
 module.exports = router;

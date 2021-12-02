@@ -128,6 +128,7 @@ router.post("/socauth", (req, res) => {
             image: req.body.image,
             social: true,
             verified: true,
+            description: req.body.description,
         });
         userdb.find({ email: newUser.email }).then((sss) => {
             ss = sss[0];

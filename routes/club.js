@@ -23,8 +23,8 @@ router.post("/", async(req, res, next) => {
         verified: req.body.verified,
         password: req.body.password,
         login: req.body.login,
-        description:req.body.description,
-        social:req.body.social
+        description: req.body.description,
+        social: req.body.social
     });
 
     try {
@@ -65,9 +65,9 @@ router.patch("/:id", getClub, (req, res) => {
         res.club.login = req.body.login;
     }
     if (req.body.description != null) {
-      res.club.description = req.body.description;
-  }
-    
+        res.club.description = req.body.description;
+    }
+
 
     try {
         res.club.save().then((updatedClub) => {
