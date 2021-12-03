@@ -61,7 +61,7 @@ router.get("/", async(req, res, next) => {
     }
 });
 
-router.get("/:id", getUser, (req, res) => {
+router.get("/:email", getUser, (req, res) => {
     res.json(res.user);
 });
 //Post users
@@ -148,14 +148,14 @@ router.patch("/:id", getUser, (req, res) => {
 
 async function getUser(req, res, next) {
     try {
-        user = await User.findById(req.params.id);
+        user = await User.find({ email: req.params.email });
         if (user == null) {
             return res.status(404).json({ message: "cannot find user" });
         }
     } catch (error) {
         return res.status(500).json({ message: err.message });
     }
-    res.user = user;
+    res.user = user[0];
     next();
 }
 

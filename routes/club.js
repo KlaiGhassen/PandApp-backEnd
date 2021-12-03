@@ -36,7 +36,7 @@ router.post("/", async(req, res, next) => {
     }
 });
 
-router.delete("/:id", getClub, async(req, res) => {
+router.delete("/:clubName", getClub, async(req, res) => {
     try {
         await res.club.remove();
         res.json({ message: "deleted club" });
@@ -45,7 +45,7 @@ router.delete("/:id", getClub, async(req, res) => {
     }
 });
 
-router.patch("/:id", getClub, (req, res) => {
+router.patch("/:clubName", getClub, (req, res) => {
     if (req.body.clubName != null) {
         res.club.clubName = req.body.clubName;
     }
@@ -80,7 +80,7 @@ router.patch("/:id", getClub, (req, res) => {
 
 async function getClub(req, res, next) {
     try {
-        club = await club.find({ clubName: req.params.clubName });
+        club = await Club.find({ clubName: req.params.clubName });
         if (club == null) {
             return res.status(404).json({ message: "cannot find club" });
         }
@@ -91,4 +91,16 @@ async function getClub(req, res, next) {
     next();
 }
 
+async function getClubById(req, res, next) {
+    try {
+        club = await Club.findById(req.params.id);
+        if (club == null) {
+            return res.status(404).json({ message: "cannot find club" });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: err.message });
+    }
+    res.club = club;
+    next();
+}
 module.exports = router;
