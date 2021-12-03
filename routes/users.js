@@ -101,7 +101,7 @@ router.delete("/:id", getUser, async(req, res) => {
     }
 });
 
-router.patch("/:id", getUser, (req, res) => {
+router.patch("/:email", getUser, (req, res) => {
 
     if (req.body.identifant != null) {
         res.user.identifant = req.body.identifant;
@@ -135,6 +135,9 @@ router.patch("/:id", getUser, (req, res) => {
     }
     if (req.body.description != null) {
         res.user.description = req.body.description;
+    }
+    if (req.body.className != null) {
+        res.user.className = req.body.className;
     }
 
     try {
