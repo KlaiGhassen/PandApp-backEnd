@@ -18,6 +18,7 @@ var otherPost = require("./routes/otherPost");
 var authUser = require('./routes/auth');
 var authClub = require('./routes/authClub');
 var uploadDownload = require('./routes/uploadDownload')
+var clubMembersRouter = require("./routes/clubMembers");
 
 
 var app = express();
@@ -42,6 +43,7 @@ app.use('/authClub', authClub);
 app.use("/user", usersRouter);
 app.use("/club", clubRouter);
 app.use("/elearning", elearningRouter);
+app.use("/clubMembers", clubMembersRouter);
 
 
 //app.use(verifyAdminToken);
