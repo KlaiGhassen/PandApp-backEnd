@@ -46,6 +46,17 @@ router.post("/", async(req, res, next) => {
     }
 });
 
+router.patch("/:id", getOneById, (req, res) => {
+    res.clubMembers.state = true;
+    try {
+        res.clubMembers.save().then((updatedClubMembers) => {
+            res.json(updatedClubMembers);
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 router.delete("/:id", getOneById, async(req, res) => {
     try {
         await res.clubMembers.remove();
