@@ -11,6 +11,15 @@ router.get("/", async(req, res, next) => {
     }
 });
 
+router.get("/clubName/:publisheId", async(req, res, next) => {
+    try {
+        const events = await Event.find({ publisheId: req.params.publisheId });
+        res.json(events);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 router.get("/:id", getEvent, (req, res) => {
     res.json(res.event);
 });
