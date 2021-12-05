@@ -11,6 +11,16 @@ router.get("/", async(req, res, next) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+router.get("/lostFound/:type", async(req, res, next) => {
+    try {
+        const lost = await LostPost.find({ type: req.params.type });
+        res.json(lost);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 //Post users
 router.get("/:id", getLostPost, (req, res) => {
     res.json(res.lostPost);
