@@ -346,6 +346,45 @@ router.post("/", (req, res) => {
     }
 });
 
+router.post("/googleCheck", (req, res) => {
+    try {
+        console.log(req.body);
+        let login = req.body.login;
+        console.log(login);
+        clubDb.find({ login: login }).then((Club) => {
+            compte = Club[0];
+            if (compte) {
+                let payload = {
+                    id: compte.id,
+                    role: compte.clubOwner,
+                };
+                console.log(payload);
+                const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+                let clubLogin = {
+                    tokenClub: token,
+                    clubName: compte.clubName,
+                    clubOwner: compte.clubOwner,
+                    password: compte.password,
+                    clubLogo: compte.clubLogo,
+                    description: compte.description,
+                    verified: compte.verified,
+                    login: compte.login
+                };
+                res.json(clubLogin);
+            } else {
+                res.status(401);
+                res.json({
+                    error: "UNAUTHORIZED",
+                });
+            }
+        });
+    } catch (err) {
+        res.json({
+            error: err,
+        });
+    }
+});
+
 /**
  * @swagger
  * tags:
