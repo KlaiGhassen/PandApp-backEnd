@@ -6,11 +6,33 @@ var nodemailer = require("nodemailer");
 
 const jwt = require("jsonwebtoken");
 var val;
-//get one email
+//Reset password 
 
+/**
+ * @swagger
+ * tags:
+ *  name: auth User
+ *  description: authentification reset verif User
+ * /auth/reset:
+ *  post:
+ *      tags: [auth User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.post("/reset", (req, res) => {
     val = Math.floor(1000 + Math.random() * 9000);
-    console.log(val);
+    console.log(val,req.body);
 
     try {
         let email = req.body.email;
@@ -55,6 +77,28 @@ router.post("/reset", (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *  name: auth User
+ *  description: authentification reset verif User
+ * /auth/verified:
+ *  post:
+ *      tags: [auth User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.post("/verified", (req, res) => {
     val = Math.floor(1000 + Math.random() * 9000);
     try {
@@ -104,6 +148,31 @@ router.post("/verified", (req, res) => {
     }
 });
 
+
+/**
+ * @swagger
+ * tags:
+ *  name: auth User
+ *  description: authentification reset verif User
+ * /auth/verified:
+ *  patch:
+ *      tags: [auth User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          code:
+ *                              type: number
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.patch("/verified", getUserEmail, async(req, res) => {
     if (req.body.code == val) {
         console.log(res.user);
@@ -119,6 +188,30 @@ router.patch("/verified", getUserEmail, async(req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *  name: auth User
+ *  description: authentification reset verif User
+ * /auth/socauth:
+ *  post:
+ *      tags: [auth User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.post("/socauth", (req, res) => {
     try {
         let newUser = new userdb({
@@ -176,6 +269,34 @@ router.post("/socauth", (req, res) => {
         }
     }
 });
+
+
+
+
+/**
+ * @swagger
+ * tags:
+ *  name: auth User
+ *  description: authentification reset verif User
+ * /auth:
+ *  post:
+ *      tags: [auth User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.post("/", (req, res) => {
     try {
         console.log(req.body);
@@ -221,6 +342,32 @@ router.post("/", (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *  name: auth User
+ *  description: authentification reset verif User
+ * /auth/reset:
+ *  patch:
+ *      tags: [auth User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          code:
+ *                              type: number
+ *                          password:
+ *                              type: number
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.patch("/reset", getUserEmail, async(req, res) => {
     if (req.body.password != null) {
         if (req.body.code == val) {

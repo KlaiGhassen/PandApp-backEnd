@@ -8,6 +8,30 @@ const jwt = require("jsonwebtoken");
 var val;
 //get one login
 
+
+/**
+ * @swagger
+ * tags:
+ *  name: auth club User
+ *  description: authentification reset verif club User
+ * /authclub/reset:
+ *  post:
+ *      tags: [auth club User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
+
 router.post("/reset", (req, res) => {
     val = Math.floor(1000 + Math.random() * 9000);
     console.log(val);
@@ -61,7 +85,28 @@ router.post("/reset", (req, res) => {
     }
 });
 
-
+/**
+ * @swagger
+ * tags:
+ *  name: auth club User
+ *  description: authentification reset verif club User
+ * /authclub/verified:
+ *  post:
+ *      tags: [auth club User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.post("/verified", (req, res) => {
     val = Math.floor(1000 + Math.random() * 9000);
     console.log(val);
@@ -114,6 +159,30 @@ router.post("/verified", (req, res) => {
 });
 
 
+/**
+ * @swagger
+ * tags:
+ *  name: auth club User
+ *  description: authentification reset verif club User
+ * /authclub/verified:
+ *  patch:
+ *      tags: [auth club User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          code:
+ *                              type: number
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.patch("/verified", getClubByEmail, async(req, res) => {
     if (req.body.code == val) {
         res.club.verified = true
@@ -130,6 +199,30 @@ router.patch("/verified", getClubByEmail, async(req, res) => {
 
 });
 
+/**
+ * @swagger
+ * tags:
+ *  name: auth club User
+ *  description: authentification reset verif club User
+ * /authclub/socauth:
+ *  post:
+ *      tags: [auth club User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.post("/socauth", (req, res) => {
     try {
         let newUser = new clubDb({
@@ -187,6 +280,32 @@ router.post("/socauth", (req, res) => {
         }
     }
 });
+
+
+/**
+ * @swagger
+ * tags:
+ *  name: auth club User
+ *  description: authentification reset verif club User
+ * /authclub:
+ *  post:
+ *      tags: [auth club User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.post("/", (req, res) => {
     try {
         console.log(req.body);
@@ -227,6 +346,32 @@ router.post("/", (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *  name: auth club User
+ *  description: authentification reset verif club User
+ * /authclub/reset:
+ *  patch:
+ *      tags: [auth club User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          email:
+ *                              type: string
+ *                          code:
+ *                              type: number
+ *                          password:
+ *                              type: number
+ *                         
+ *      responses:
+ *          default:
+ *              description: This is the default response for it
+ */
 router.patch("/reset", getClubByEmail, async(req, res) => {
     if (req.body.password != null) {
         if (req.body.code == val) {
