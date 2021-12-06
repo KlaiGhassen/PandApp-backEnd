@@ -15,6 +15,24 @@ router.get("/:clubName", getClub, (req, res) => {
     res.json(res.club);
 });
 
+router.get("/clubByLogin/:login", async(req, res, next) => {
+    try {
+        const club = await Club.find({ login: req.params.login });
+        res.json(club);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get("/clubByName/:clubName", async(req, res, next) => {
+    try {
+        const club = await Club.find({ clubName: req.params.clubName });
+        res.json(club);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 router.post("/", async(req, res, next) => {
     const club = new Club({
         clubName: req.body.clubName,
