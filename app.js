@@ -17,6 +17,7 @@ var lostPost = require("./routes/lostPost");
 var otherPost = require("./routes/otherPost");
 var authUser = require("./routes/auth");
 var authClub = require("./routes/authClub");
+var EventInt = require("./routes/EventInt");
 var uploadDownload = require("./routes/uploadDownload");
 var clubMembersRouter = require("./routes/clubMembers");
 const swaggerJsDocs = require("swagger-jsdoc");
@@ -76,7 +77,7 @@ app.use("/user", usersRouter);
 app.use("/club", clubRouter);
 app.use("/elearning", elearningRouter);
 app.use("/clubMembers", clubMembersRouter);
-
+app.use("/EventInt", EventInt);
 //app.use(verifyAdminToken);
 
 app.use("/otherpost", otherPost);
