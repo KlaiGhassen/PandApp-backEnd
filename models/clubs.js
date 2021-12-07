@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
     clubName: String,
-    clubOwner: Number,
+    clubOwner: String,
     clubLogo: String,
     verified: Boolean,
     password: String,

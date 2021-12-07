@@ -2,6 +2,21 @@ var express = require("express");
 const Syrveys = require("../models/Syrveys");
 var router = express.Router();
 
+
+//get all syveys
+/**
+ * @swagger
+* tags:
+*  name: syveys
+*  description: This is for the main syveys
+* /syveys:
+*  get:
+*    tags: [syveys]
+*    description: Use to request all syveys
+*    responses:
+*      '200':
+*        description: A successful response
+*/
 router.get("/", async (req, res, next) => {
   try {
     const syrveys = await Syrveys.find();
@@ -11,11 +26,63 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+/**
+* @swagger
+* tags:
+*  name: syveys
+*  description: This is for the main syveys
+* /syveys/{id}:
+*  get:
+*   tags: [syveys]
+*   summary: this Api used to get one syveys from database
+*   description: this api is used to get one syveys from database
+*   parameters:
+*     - in: path
+*       name: id
+*       description: Must provide  Id 
+*       schema:
+*        type: string
+*   responses:
+*     '200':
+*        description: A successful response
+*/
+
 router.get("/:id", getSyrveys , (req, res) => {
   res.json(res.syrveys);
 });
 
+
+/**
+* @swagger 
+* tags:
+*  name: syveys
+*  description: This is for the main syveys
+* /syveys:
+*  post:
+*   tags: [syveys]
+*   summary: Creates a new syveys.
+*   requestBody:
+*      content:
+*       application/json:
+*         schema:
+*           type: object
+*           properties:
+*             publisheId:
+*              type: string
+*             titre:
+*              type: string
+*             surveyLink:
+*              type: string
+*             state:
+*              type: boolean
+*  responses:
+*      201:
+*         description: Created
+ */
+
+
 router.post("/", async (req, res, next) => {
+  console.log(req.body)
   const syrveys = new Syrveys({
     publisheId:req.body.publisheId,
     titre: req.body.titre,
@@ -32,6 +99,28 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+/**
+* @swagger
+* tags:
+*  name: syveys
+*  description: This is for the main syveys
+* /syveys/{id}:
+*  delete:
+*   tags: [syveys]
+*   summary: this Api used to delete syveys from database
+*   description: this api is used to delete  syveys from database
+*   parameters:
+*     - in: path
+*       name: id
+*       description: Must provide  syveys 
+*       schema:
+*        type: string
+*   responses:
+*     200:
+*        description: A successful response
+*/
+
+
 router.delete("/:id", getSyrveys, async (req, res) => {
   try {
     await res.syrveys.remove();
@@ -40,6 +129,38 @@ router.delete("/:id", getSyrveys, async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+/**
+* @swagger 
+* tags:
+*  name: syveys
+*  description: This is for the main syveys
+* /syveys/{id}:
+*  patch:
+*   tags: [syveys]
+*   summary: Creates a new syveys
+*   parameters:
+*       - in: path
+*         name: id
+*         description: id of syveys to change.
+*   requestBody:
+*       content:
+*        application/json:
+*          schema:
+*            type: object
+*            properties:
+*              surveyLink:
+*               type: string
+*              titre:
+*               type: string
+*              state:
+*               type: boolean
+*              
+*  responses:
+*      201:
+*         description: Created
+ */
 
 router.patch("/:id", getSyrveys, (req, res) => {
   if (req.body.titre != null) {

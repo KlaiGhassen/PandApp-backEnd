@@ -14,10 +14,10 @@ var elearningRouter = require("./routes/Elearning");
 var syrveys = require("./routes/syrveys");
 var document = require("./routes/document");
 var lostPost = require("./routes/lostPost");
-var otherPost = require("./routes/otherPost");
 var authUser = require("./routes/auth");
 var authClub = require("./routes/authClub");
 var EventInt = require("./routes/EventInt");
+var messages = require("./routes/messages")
 var uploadDownload = require("./routes/uploadDownload");
 var clubMembersRouter = require("./routes/clubMembers");
 const swaggerJsDocs = require("swagger-jsdoc");
@@ -78,9 +78,10 @@ app.use("/club", clubRouter);
 app.use("/elearning", elearningRouter);
 app.use("/clubMembers", clubMembersRouter);
 app.use("/EventInt", EventInt);
-//app.use(verifyAdminToken);
 
-app.use("/otherpost", otherPost);
+app.use(verifyAdminToken);
+
+app.use("/message",messages)
 app.use("/lostpost", lostPost);
 app.use("/document", document);
 app.use("/syveys", syrveys);
@@ -116,8 +117,6 @@ function verifyAdminToken(req, res, next) {
       return res.sendStatus(403);
     }
     req.body["payload"] = user;
-    console.log(req.body);
-
     next(); // pass the execution off to whatever request the client intended
   });
 }
