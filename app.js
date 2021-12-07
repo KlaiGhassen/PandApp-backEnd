@@ -79,7 +79,7 @@ app.use("/elearning", elearningRouter);
 app.use("/clubMembers", clubMembersRouter);
 app.use("/EventInt", EventInt);
 
-app.use(verifyAdminToken);
+// app.use(verifyAdminToken);
 
 app.use("/message",messages)
 app.use("/lostpost", lostPost);
