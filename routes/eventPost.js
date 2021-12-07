@@ -20,6 +20,16 @@ router.get("/clubName/:publisheId", async(req, res, next) => {
     }
 });
 
+router.get("/eventById/:id", async(req, res, next) => {
+    try {
+        const events = await Event.find({ id: req.params.id });
+        res.json(events);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
 router.get("/:id", getEvent, (req, res) => {
     res.json(res.event);
 });
@@ -103,7 +113,7 @@ router.patch("/:id", getEvent, (req, res) => {
 
 async function getEvent(req, res, next) {
     try {
-        event = await event.findById(req.params.id);
+        event = await Event.findById(req.params.id);
         if (event == null) {
             return res.status(404).json({ message: "cannot find event" });
         }
