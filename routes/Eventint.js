@@ -15,9 +15,9 @@ router.get("/:id", getEventInt, (req, res) => {
     res.json(res.eventInt);
 });
 
-router.get("/eventIntById/:id", async(req, res, next) => {
+router.get("/eventIntById/:postId", async(req, res, next) => {
     try {
-        const events = await EventInt.find({ id: req.params.id });
+        const events = await EventInt.find({ postId: req.params.postId });
         res.json(events);
     } catch (error) {
         res.status(500).json({ message: error.message });
