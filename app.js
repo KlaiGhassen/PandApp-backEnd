@@ -31,7 +31,7 @@ const options = {
     swaggerDefinition: {
         openapi: "3.0.1",
         info: {
-          title: "My apis in swaager",
+          title: "My Endpoints in Pandapp Application",
           version: "1.0.0",
         },
         servers: [
@@ -79,7 +79,7 @@ app.use("/elearning", elearningRouter);
 app.use("/clubMembers", clubMembersRouter);
 app.use("/EventInt", EventInt);
 
-// app.use(verifyAdminToken);
+app.use(verifyAdminToken);
 
 app.use("/message",messages)
 app.use("/lostpost", lostPost);

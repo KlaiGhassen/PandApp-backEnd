@@ -1,7 +1,19 @@
 var express = require("express");
 const Event = require("../models/eventPost");
 var router = express.Router();
-
+/**
+ * @swagger
+* tags:
+*  name: event
+*  description: This is for the main event
+* /event:
+*  get:
+*    tags: [event]
+*    description: Use to request all event
+*    responses:
+*      '200':
+*        description: A successful response
+*/
 router.get("/", async(req, res, next) => {
     try {
         const events = await Event.find();

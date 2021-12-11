@@ -3,6 +3,23 @@ const LostPost = require("../models/lostPost");
 var router = express.Router();
 
 /* GET users listing. */
+
+
+//get all syveys
+
+/**
+ * @swagger
+* tags:
+*  name: lostpost
+*  description: This is for the main lostpost
+* /lostpost:
+*  get:
+*    tags: [lostpost]
+*    description: Use to request all lostpost
+*    responses:
+*      '200':
+*        description: A successful response
+*/
 router.get("/", async(req, res, next) => {
     try {
         const lostPost = await LostPost.find();
