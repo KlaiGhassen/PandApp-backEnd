@@ -16,7 +16,11 @@
 - [Test Instructions](#test-instructions)
 - [Licenses](#licenses)
 - [Contact Information](#contactin-formation)
-
+- Link to swagger deployed on heroku :
+- https://morning-sierra-10566.herokuapp.com/api-docs/
+- Link to swagger local:
+- http://localhost:3000/api-docs/
+![command-line-pic](https://github.com/KlaiGhassen/IosBack/blob/main/swagger.png)
 
 ## Description
 
@@ -48,6 +52,7 @@ run nodemon
 npm run dev
 
 ```
+
 
 
 Once you have run the server 
