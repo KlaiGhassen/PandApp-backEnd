@@ -20,6 +20,19 @@ router.get("/join/:state", async(req, res, next) => {
 });
 //.find({ state: req.params.state });
 
+router.get("/findclubbyuser/:useEemail", async(req,res,nex)=>{
+
+    try {
+        const clubs = await ClubMembers.find({ userEmail: req.params.userEmail });
+        res.json(clubs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+
+})
+
+
 
 router.get("/:clubName", getClubMembers, (req, res) => {
     res.json(res.club);

@@ -123,6 +123,8 @@ router.patch("/:id", getEvent, (req, res) => {
     }
 });
 
+
+
 async function getEvent(req, res, next) {
     try {
         event = await Event.findById(req.params.id);
