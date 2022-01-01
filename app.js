@@ -13,6 +13,7 @@ var eventRouter = require("./routes/eventPost");
 var elearningRouter = require("./routes/Elearning");
 var syrveys = require("./routes/syrveys");
 var document = require("./routes/document");
+var ratePost = require("./routes/ratePost");
 var lostPost = require("./routes/lostPost");
 var authUser = require("./routes/auth");
 var authClub = require("./routes/authClub");
@@ -78,6 +79,7 @@ app.use("/club", clubRouter);
 app.use("/elearning", elearningRouter);
 app.use("/clubMembers", clubMembersRouter);
 app.use("/EventInt", EventInt);
+app.use("/ratePost", ratePost);
 
 app.use(verifyAdminToken);
 
@@ -87,6 +89,7 @@ app.use("/document", document);
 app.use("/syveys", syrveys);
 app.use("/parking", parking);
 app.use("/event", eventRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
