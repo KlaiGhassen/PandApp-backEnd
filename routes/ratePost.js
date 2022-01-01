@@ -12,6 +12,14 @@ router.get("/", async(req, res, next) => {
     }
 });
 
+router.get("/rate/:postId", async(req, res, next) => {
+    try {
+        const rateposts = await RatePost.find({ postId: req.params.postId });
+        res.json(rateposts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 /*
 //Post users
 router.get("/:claimedId", getRatePost, (req, res) => {
