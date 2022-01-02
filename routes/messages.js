@@ -106,17 +106,15 @@ router.post('/', async (req, res) => {
 *     '200':
 *        description: A successful response
 */
-router.get('/tosend/:id', (req, res) => {
-    let id=req.params.id;
-   
-    userdb.find({toSend : id }).then((messages) => {
 
-        res.status(201).json(messages);
-
-    })
-
-  
-   })
+   router.get("/tosend/:toSend", async(req, res, next) => {
+    try {
+        const msg = await userdb.find({ toSend: req.params.toSend });
+        res.json(msg);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
    //recu
 
    /**
@@ -142,7 +140,7 @@ router.get('/tosend/:id', (req, res) => {
    router.get('/whosend/:id', (req, res) => {
     let id=req.params.id;
    
-    userdb.find({whoSend : id }).then((messages) => {
+    userdb.find({ whoSend : id }).then((messages) => {
 
         res.status(201).json(messages);
 
