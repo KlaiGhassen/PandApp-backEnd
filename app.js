@@ -10,6 +10,8 @@ var cors = require("cors");
 
 
 const mongoose = require("mongoose");
+
+var emploi = require("./routes/emploi")
 var parking = require("./routes/parking");
 var clubRouter = require("./routes/club");
 var usersRouter = require("./routes/users");
@@ -90,6 +92,7 @@ app.use("/elearning", elearningRouter);
 app.use("/clubMembers", clubMembersRouter);
 app.use("/EventInt", EventInt);
 app.use("/admin",admin);
+app.use("/emploi",emploi);
 
 
 
