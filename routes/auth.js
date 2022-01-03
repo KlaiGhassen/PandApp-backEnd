@@ -270,6 +270,12 @@ router.post("/socauth", (req, res) => {
     }
 });
 
+router.get('/',(req, res) => {
+
+res.json({ "test":"test" });
+
+})
+
 
 
 

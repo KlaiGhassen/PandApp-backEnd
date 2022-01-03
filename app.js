@@ -5,6 +5,10 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require("cors");
+
+
+
 const mongoose = require("mongoose");
 var parking = require("./routes/parking");
 var clubRouter = require("./routes/club");
@@ -17,6 +21,7 @@ var lostPost = require("./routes/lostPost");
 var authUser = require("./routes/auth");
 var authClub = require("./routes/authClub");
 var EventInt = require("./routes/Eventint");
+var admin = require("./routes/admin");
 var messages = require("./routes/messages")
 var uploadDownload = require("./routes/uploadDownload");
 var clubMembersRouter = require("./routes/clubMembers");
@@ -59,6 +64,9 @@ const options = {
     const swaggerSpecs = swaggerJsDocs(options);
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
+
+    app.use(cors());
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -70,6 +78,7 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to DataBase"));
 
+
 app.use("/upload", uploadDownload);
 app.use("/auth", authUser);
 app.use("/authClub", authClub);
@@ -78,9 +87,12 @@ app.use("/club", clubRouter);
 app.use("/elearning", elearningRouter);
 app.use("/clubMembers", clubMembersRouter);
 app.use("/EventInt", EventInt);
+app.use("/admin",admin);
+
+
+
 
 app.use(verifyAdminToken);
-
 app.use("/message",messages)
 app.use("/lostpost", lostPost);
 app.use("/document", document);

@@ -20,7 +20,7 @@ router.get("/join/:state", async(req, res, next) => {
 });
 //.find({ state: req.params.state });
 
-router.get("/findclubbyuser/:useEemail", async(req,res,nex)=>{
+router.get("/findclubbyuser/:useEemail", async(req,res)=>{
 
     try {
         const clubs = await ClubMembers.find({ userEmail: req.params.userEmail });

@@ -9,5 +9,8 @@ const userSchema = new mongoose.Schema({
     },
     numcopies: Number,
     docLanguage: String,
+    type:{type:String,
+        default:"news",
+    }
 });
 module.exports = mongoose.model("document", userSchema);

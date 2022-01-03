@@ -81,6 +81,20 @@ async function getDocument(req, res, next) {
     next();
 }
 
+async function getDocByType(req, res, next) {
+    try {
+        document = await Document.find({type:req.params.type});
+        if (document == null) {
+            return res.status(404).json({ message: "cannot find " });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: err.message });
+    }
+    res.document = document;
+    next();
+}
+
+
 async function getDocById(req, res, next) {
     try {
         document = await Document.findById(req.params.id);
