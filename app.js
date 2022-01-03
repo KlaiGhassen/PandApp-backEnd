@@ -81,6 +81,8 @@ app.use("/clubMembers", clubMembersRouter);
 app.use("/EventInt", EventInt);
 app.use("/ratePost", ratePost);
 app.use("/message",messages);
+
+app.use("/event", eventRouter);
 app.use(verifyAdminToken);
 
 
@@ -88,7 +90,7 @@ app.use("/lostpost", lostPost);
 app.use("/document", document);
 app.use("/syveys", syrveys);
 app.use("/parking", parking);
-app.use("/event", eventRouter);
+
 
 
 // catch 404 and forward to error handler
