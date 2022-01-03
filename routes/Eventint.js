@@ -24,6 +24,15 @@ router.get("/eventIntById/:postId", async(req, res, next) => {
     }
 });
 
+router.get("/eventByUser/:userEmail", async(req, res, next) => {
+    try {
+        const events = await EventInt.find({ userEmail: req.params.userEmail });
+        res.json(events);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 router.post("/", async(req, res, next) => {
     const eventInt = new EventInt({
         userEmail: req.body.userEmail,
