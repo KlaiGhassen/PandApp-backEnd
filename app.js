@@ -17,12 +17,14 @@ var eventRouter = require("./routes/eventPost");
 var elearningRouter = require("./routes/Elearning");
 var syrveys = require("./routes/syrveys");
 var document = require("./routes/document");
+var ratePost = require("./routes/ratePost");
 var lostPost = require("./routes/lostPost");
 var authUser = require("./routes/auth");
 var authClub = require("./routes/authClub");
 var EventInt = require("./routes/Eventint");
 var admin = require("./routes/admin");
 var messages = require("./routes/messages")
+var messages = require("./routes/messages");
 var uploadDownload = require("./routes/uploadDownload");
 var clubMembersRouter = require("./routes/clubMembers");
 const swaggerJsDocs = require("swagger-jsdoc");
@@ -94,11 +96,19 @@ app.use("/admin",admin);
 
 app.use(verifyAdminToken);
 app.use("/message",messages)
+app.use("/ratePost", ratePost);
+app.use("/message",messages);
+
+app.use("/event", eventRouter);
+app.use(verifyAdminToken);
+
+
 app.use("/lostpost", lostPost);
 app.use("/document", document);
 app.use("/syveys", syrveys);
 app.use("/parking", parking);
-app.use("/event", eventRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
