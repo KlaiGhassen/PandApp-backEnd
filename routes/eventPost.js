@@ -22,6 +22,30 @@ router.get("/", async(req, res, next) => {
         res.status(500).json({ message: error.message });
     }
 });
+router.get("/bylist", async(req, res, next) => {
+    console.log(req.body.list)
+    console.log("hello world")
+    listId=req.body.list
+    console.log(listId[0])
+    events=[];
+    for(list of listId) {
+events.push( await Event.findById(list)
+)
+    }
+    res.json(
+events)
+
+    
+ 
+   
+
+  
+    
+
+});
+
+
+
 
 router.get("/clubName/:publisheId", async(req, res, next) => {
     try {
