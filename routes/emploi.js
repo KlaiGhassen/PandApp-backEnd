@@ -83,17 +83,16 @@ router.get("/:classe", getEmploiByClasse , (req, res) => {
 
 router.post("/", async (req, res, next) => {
   console.log(req.body)
-  const syrveys = new Syrveys({
-    publisheId:req.body.publisheId,
-    titre: req.body.titre,
-    surveyLink: req.body.surveyLink,
-    state: req.body.state,
+  const emploi = new Emploi({
+    classe:req.body.classe,
+    picture: req.body.picture,
+    
   });
 
   try {
-    const newSyrveys = await syrveys.save();
+    const newEmploi = await emploi.save();
 
-    res.status(201).json({ newSyrveys });
+    res.status(201).json({ newEmploi });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
