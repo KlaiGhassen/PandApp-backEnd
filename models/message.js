@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
     content: {
         type: String,
-        required: true
     },
     creted_at: {
         type: Date,
@@ -12,11 +11,9 @@ const userSchema = new mongoose.Schema({
     
     whoSend: {
         type: String,
-        required: true,
     },
     toSend: {
         type: String,
-        required: true,
     },
 
 
