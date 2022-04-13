@@ -357,4 +357,46 @@ async function getUser(req, res, next) {
     next();
 }
 
+
+
+
+
+
+router.post('/signup',  upload.single("file"), async (req, res) => {
+    
+    const user = new User({
+        identifant: req.body.identifant,
+        email: req.body.email,
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber,
+        profilePicture: req.body.profilePicture,
+        FirstName: req.body.FirstName,
+        LastName: req.body.LastName,
+        verified: req.body.verified,
+        className: req.body.className,
+        social: req.body.social,
+        role: req.body.role,
+        description: req.body.description,
+    });
+
+    if (req.file) {
+        
+        user.profilePicture = req.file.filename
+    } 
+    
+    try {
+       
+        const newUser = await user.save();
+        res.status(201).json({ newUser });
+    } catch (error) {
+        res.status(400).json({ reponse: error.message })
+    }
+})
+
+
+
+
+
+
+
 module.exports = router;
