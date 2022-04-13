@@ -382,6 +382,7 @@ router.post('/signup',  upload.single("file"), async (req, res) => {
     if (req.file) {
         
         user.profilePicture = req.file.filename
+        console.log(req.body)
     } 
     
     try {
