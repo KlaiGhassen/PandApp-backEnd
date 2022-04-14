@@ -32,11 +32,14 @@ var val;
  */
 router.post("/reset", (req, res) => {
     val = Math.floor(1000 + Math.random() * 9000);
-    console.log(val, req.body);
+   // console.log(val, req.body);
+    console.log(val)
+    console.log(req.body.email)
+    let msg = {msgg: true}
 
     try {
         let email = req.body.email;
-        userdb.find({ email: email }).then((user) => {
+        userdb.find({ email: req.body.email }).then((user) => {
             compte = user[0];
             if (compte) {
                 var transporter = nodemailer.createTransport({
@@ -66,10 +69,11 @@ router.post("/reset", (req, res) => {
                         console.log("Email sent: " + info.response);
                     }
                 });
-
-                res.json("true");
+                msg = {msgg: true}
+                res.json(msg);
             } else {
-                res.json("false");
+              msg = {msgg: false}
+                res.json(msg);
             }
         });
     } catch (error) {
@@ -422,10 +426,11 @@ router.post("/googleCheck", (req, res) => {
  *              description: This is the default response for it
  */
 router.patch("/reset", getUserEmail, async(req, res) => {
+  console.log(req.body)
     if (req.body.password != null) {
-        if (req.body.code == val) {
+        
             res.user.password = req.body.password;
-        }
+        
 
         try {
             res.user.save().then((updateduser) => {
@@ -436,6 +441,20 @@ router.patch("/reset", getUserEmail, async(req, res) => {
         }
     } else {
         res.json({ code: false });
+    }
+});
+
+
+router.post("/reset/checkcode", async(req, res) => {
+  console.log("el codo",val)
+  console.log(req.body)
+    
+        if (req.body.code == val.toString() ) {
+            
+          res.json({ check: true });
+        
+    } else {
+        res.json({ check: false });
     }
 });
 

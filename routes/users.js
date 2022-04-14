@@ -32,6 +32,10 @@ var storage = multer.diskStorage({
             filetype = "image-";
             fileExtension = "jpeg";
         }
+        if (file.mimetype === "image/jpg") {
+            filetype = "image-";
+            fileExtension = "jpg";
+        }
 
         cb(null, filetype + Date.now() + "." + fileExtension);
         h = cb;
@@ -381,8 +385,11 @@ router.post('/signup',  upload.single("file"), async (req, res) => {
 
     if (req.file) {
         
+        req.file.filename = req.file.filename
         user.profilePicture = req.file.filename
-        console.log(req.body)
+        console.log(user.profilePicture)
+        
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",req.file)
     } else{
         cosnole.log("filllllllllllllllle problem")
     }
@@ -390,7 +397,8 @@ router.post('/signup',  upload.single("file"), async (req, res) => {
     try {
        
         const newUser = await user.save();
-        res.status(201).json({ newUser });
+        //res.status(201).json({ newUser });
+        res.json(res.body)
     } catch (error) {
         res.status(400).json({ reponse: error.message })
     }
