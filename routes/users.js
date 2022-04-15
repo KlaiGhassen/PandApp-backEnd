@@ -32,6 +32,10 @@ var storage = multer.diskStorage({
             filetype = "image-";
             fileExtension = "jpeg";
         }
+        if (file.mimetype === "image/jpg") {
+            filetype = "image-";
+            fileExtension = "jpg";
+        }
 
         cb(null, filetype + Date.now() + "." + fileExtension);
         h = cb;
@@ -356,5 +360,54 @@ async function getUser(req, res, next) {
     res.user = user[0];
     next();
 }
+
+
+
+
+
+
+router.post('/signup',  upload.single("file"), async (req, res) => {
+    
+    const user = new User({
+        identifant: req.body.identifant,
+        email: req.body.email,
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber,
+        profilePicture: req.body.profilePicture,
+        FirstName: req.body.FirstName,
+        LastName: req.body.LastName,
+        verified: req.body.verified,
+        className: req.body.className,
+        social: req.body.social,
+        role: req.body.role,
+        description: req.body.description,
+    });
+
+    if (req.file) {
+        
+        req.file.filename = req.file.filename
+        user.profilePicture = req.file.filename
+        console.log(user.profilePicture)
+        
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",req.file)
+    } else{
+        cosnole.log("filllllllllllllllle problem")
+    }
+    
+    try {
+       
+        const newUser = await user.save();
+        //res.status(201).json({ newUser });
+        res.json(res.body)
+    } catch (error) {
+        res.status(400).json({ reponse: error.message })
+    }
+})
+
+
+
+
+
+
 
 module.exports = router;
