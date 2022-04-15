@@ -30,6 +30,8 @@ router.get("/", async(req, res, next) => {
 });
 
 router.get("/lostFound/:type", async(req, res, next) => {
+
+    console.log("hello",req.params)
     try {
         const lost = await LostPost.find({ type: req.params.type });
         res.json(lost);

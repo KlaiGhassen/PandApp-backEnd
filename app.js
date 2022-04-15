@@ -97,13 +97,13 @@ app.use("/emploi",emploi);
 
 
 
-app.use(verifyAdminToken);
+// app.use(verifyAdminToken);
 app.use("/message",messages)
 app.use("/ratePost", ratePost);
 app.use("/message",messages);
 
 app.use("/event", eventRouter);
-app.use(verifyAdminToken);
+// app.use(verifyAdminToken);
 
 
 app.use("/lostpost", lostPost);

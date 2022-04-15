@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     publishedAt: { type: Date, required: true, default: Date.now() },
     state: Boolean,
     type: String,
-    object: String,
+    objet: String,
     place: String,
     image: String,
 });
