@@ -1,7 +1,49 @@
 var express = require("express");
 const Club = require("../models/clubs");
 var router = express.Router();
+const multer = require("multer");
+const { POINT_CONVERSION_COMPRESSED } = require("constants");
 
+const picsPath = require("path").resolve(__dirname, "../uploads");
+
+router.get("/download/:nom", function(req, res) {
+    let nom = req.params.nom;
+    const file = picsPath + "/" + nom;
+    console.log(file, "hy");
+    res.sendFile(file); // Set disposition and send it.
+});
+
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./uploads");
+    },
+    filename: (req, file, cb) => {
+        var filetype = "";
+        var fileExtension = "";
+        if (file.mimetype === "image/gif") {
+            filetype = "image-";
+            fileExtension = "gif";
+        }
+        if (file.mimetype === "image/png") {
+            filetype = "image-";
+            fileExtension = "png";
+        }
+        if (file.mimetype === "image/jpeg") {
+            filetype = "image-";
+            fileExtension = "jpeg";
+        }
+        if (file.mimetype === "image/jpg") {
+            filetype = "image-";
+            fileExtension = "jpg";
+        }
+
+        cb(null, filetype + Date.now() + "." + fileExtension);
+        h = cb;
+    },
+});
+var upload = multer({
+    storage: storage,
+});
 
 //get all syveys
 
@@ -296,4 +338,44 @@ async function getClubById(req, res, next) {
     res.club = club;
     next();
 }
+
+
+
+
+router.post('/signup',  upload.single("file"), async (req, res) => {
+    
+    const club = new Club({
+        clubName: req.body.clubName,
+        clubOwner: req.body.clubOwner,
+        clubLogo: req.body.clubLogo,
+        verified: req.body.verified,
+        password: req.body.password,
+        login: req.body.login,
+        description: req.body.description,
+        social: req.body.social
+    });
+
+    if (req.file) {
+        
+        req.file.filename = req.file.filename
+        club.clubLogo = req.file.filename
+        console.log(club.clubLogo)
+        
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",req.file)
+    } else{
+        cosnole.log("filllllllllllllllle problem")
+    }
+    
+    try {
+        const newClub = await club.save();
+
+        res.status(201).json({ newClub });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+        console.log(error.message)
+
+    }
+})
+
+
 module.exports = router;
