@@ -426,14 +426,14 @@ router.post("/googleCheck", (req, res) => {
  *              description: This is the default response for it
  */
 router.patch("/reset", getUserEmail, async(req, res) => {
-  console.log(req.body)
-    if (req.body.password != null) {
-        
-            res.user.password = req.body.password;
-        
+  console.log(req)
+  console.log(res.user)
 
+    if (req.body.password != null) {
+            res.user.password = req.body.password;
         try {
             res.user.save().then((updateduser) => {
+              console.log(updateduser)
                 res.json(updateduser);
             });
         } catch (error) {
