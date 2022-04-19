@@ -299,8 +299,9 @@ router.delete("/:email", getUser, async(req, res) => {
  *         description: Created
  */
 
-router.patch("/:email", getUser, (req, res) => {
-    console.log(req.params, req.body)
+router.patch("/:email", getUser, async(req, res) => {
+    console.log(req.params)
+    console.log("req",req.body)
     if (req.body.identifant != null) {
         res.user.identifant = req.body.identifant;
     }
