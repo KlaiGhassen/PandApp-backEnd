@@ -1,7 +1,49 @@
 var express = require("express");
 const LostPost = require("../models/lostPost");
 var router = express.Router();
+const multer = require("multer");
+const { POINT_CONVERSION_COMPRESSED } = require("constants");
 
+const picsPath = require("path").resolve(__dirname, "../uploads");
+
+router.get("/download/:nom", function(req, res) {
+    let nom = req.params.nom;
+    const file = picsPath + "/" + nom;
+    console.log(file, "hy");
+    res.sendFile(file); // Set disposition and send it.
+});
+
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./uploads");
+    },
+    filename: (req, file, cb) => {
+        var filetype = "";
+        var fileExtension = "";
+        if (file.mimetype === "image/gif") {
+            filetype = "image-";
+            fileExtension = "gif";
+        }
+        if (file.mimetype === "image/png") {
+            filetype = "image-";
+            fileExtension = "png";
+        }
+        if (file.mimetype === "image/jpeg") {
+            filetype = "image-";
+            fileExtension = "jpeg";
+        }
+        if (file.mimetype === "image/jpg") {
+            filetype = "image-";
+            fileExtension = "jpg";
+        }
+
+        cb(null, filetype + Date.now() + "." + fileExtension);
+        h = cb;
+    },
+});
+var upload = multer({
+    storage: storage,
+});
 /* GET users listing. */
 
 
@@ -44,15 +86,25 @@ router.get("/lostFound/:type", async(req, res, next) => {
 router.get("/:id", getLostPost, (req, res) => {
     res.json(res.lostPost);
 });
-router.post("/", async(req, res, next) => {
+router.post("/addpost", upload.single("file"), async(req, res, next) => {
+    console.log("helleo")
     const lostPost = new LostPost({
         publisheId: req.body.publisheId,
         state: req.body.state,
         type: req.body.type,
-        image: req.body.image,
-        object: req.body.object,
-        place: req.body.place
+        objet: req.body.objet,
+        place: req.body.place,
+        
     });
+    if (req.file) {
+        req.file.filename = req.file.filename
+        lostPost.image = req.file.filename
+        console.log(lostPost.image)
+        
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",req.file)
+    } else{
+        cosnole.log("filllllllllllllllle problem")
+    }
 
     try {
         const newLost = await lostPost.save();
