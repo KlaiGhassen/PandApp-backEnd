@@ -42,7 +42,7 @@ router.post("/", async(req, res, next) => {
     try {
         const newEventInt = await eventInt.save();
 
-        res.status(201).json({ newEventInt });
+        res.status(201).json( newEventInt );
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
