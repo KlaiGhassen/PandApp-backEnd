@@ -364,6 +364,34 @@ async function getUser(req, res, next) {
 
 
 
+router.post('/signup/google', async (req, res) => {
+    
+    const user = new User({
+        identifant: req.body.identifant,
+        email: req.body.email,
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber,
+        profilePicture: req.body.profilePicture,
+        FirstName: req.body.FirstName,
+        LastName: req.body.LastName,
+        verified: req.body.verified,
+        className: req.body.className,
+        social: req.body.social,
+        role: req.body.role,
+        description: req.body.description,
+    });
+
+  
+    
+    try {
+       
+        const newUser = await user.save();
+        //res.status(201).json({ newUser });
+        res.json(res.body)
+    } catch (error) {
+        res.status(400).json({ reponse: error.message })
+    }
+})
 
 
 
