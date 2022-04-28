@@ -2,9 +2,36 @@ var express = require("express");
 const User = require("../models/user");
 var router = express.Router();
 const multer = require("multer");
+var request = require('request');   // install request module by - 'npm install request'
+var fs = require('fs')
 const { POINT_CONVERSION_COMPRESSED } = require("constants");
 
 const picsPath = require("path").resolve(__dirname, "../uploads");
+
+
+
+
+
+
+
+const form_data = {
+  file: fs.createReadStream('test.jpg'),
+}
+
+const options = {
+    url : "https://app.nanonets.com/api/v2/OCR/Model/e9a95cc3-6ef9-4ac1-9754-e058086ccdbd/LabelFile/?async=false",
+    formData: form_data,
+    headers: {
+        'Authorization' : 'Basic ' + Buffer.from('4vPcRHbXU1RZ4f6IWkKktZ5QTgnIa0pt' + ':').toString('base64')
+    }
+}
+request.post(options, function(err, httpResponse, body) {
+    console.log(body);
+});
+
+
+
+
 
 router.get("/download/:nom", function(req, res) {
     let nom = req.params.nom;

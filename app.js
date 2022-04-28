@@ -31,6 +31,7 @@ var uploadDownload = require("./routes/uploadDownload");
 var clubMembersRouter = require("./routes/clubMembers");
 const swaggerJsDocs = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+var ocrcard = require("./routes/ocrcard");
 
 var app = express();
 
@@ -93,7 +94,7 @@ app.use("/clubMembers", clubMembersRouter);
 app.use("/EventInt", EventInt);
 app.use("/admin",admin);
 app.use("/emploi",emploi);
-
+app.use("/ocrcard",ocrcard);
 
 
 
