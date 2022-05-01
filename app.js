@@ -98,6 +98,30 @@ app.use("/ocrcard",ocrcard);
 
 
 
+
+
+
+var request = require('request');   // install request module by - 'npm install request'
+var fs = require('fs')
+
+
+const form_data = {
+  file: fs.createReadStream('test.jpg'),
+}
+
+const optionss = {
+    url : "https://app.nanonets.com/api/v2/OCR/Model/e9a95cc3-6ef9-4ac1-9754-e058086ccdbd/LabelFile/?async=false",
+    formData: form_data,
+    headers: {
+        'Authorization' : 'Basic ' + Buffer.from(' ' + ':').toString('base64')
+    }
+}
+request.post(optionss, function(err, httpResponse, body) {
+    console.log(body);
+});
+
+
+
 // app.use(verifyAdminToken);
 app.use("/message",messages)
 app.use("/ratePost", ratePost);
