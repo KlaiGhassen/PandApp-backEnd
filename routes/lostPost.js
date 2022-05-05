@@ -94,6 +94,7 @@ router.post("/addpost", upload.single("file"), async(req, res, next) => {
         type: req.body.type,
         objet: req.body.objet,
         place: req.body.place,
+        email:req.body.email
         
     });
     if (req.file) {

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
+    email:String,
     publisheId: String,
     publishedAt: { type: Date, required: true, default: Date.now() },
     state: Boolean,
