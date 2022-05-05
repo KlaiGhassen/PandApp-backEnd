@@ -19,11 +19,14 @@
     "mongoose": "^6.0.12",
     "morgan": "~1.9.1",
     "multer": "^1.4.3",
+    "nanonets": "^1.0.13",
     "nodemailer": "^6.7.0",
     "nodemon": "^2.0.14",
     "socket.io": "^2.2.0",
     "socketio": "^1.0.0",
+    "request": "^2.88.2",
     "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.2.0"
+    "swagger-ui-express": "^4.2.0",
+    "tesseract.js": "^2.1.1"
   }
 }

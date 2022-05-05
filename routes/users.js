@@ -2,9 +2,37 @@ var express = require("express");
 const User = require("../models/user");
 var router = express.Router();
 const multer = require("multer");
+var request = require('request');   // install request module by - 'npm install request'
+var fs = require('fs')
+const ocr = require("../routes/ocr");
 const { POINT_CONVERSION_COMPRESSED } = require("constants");
 
 const picsPath = require("path").resolve(__dirname, "../uploads");
+
+
+
+
+
+
+
+const form_data = {
+  file: fs.createReadStream('test.jpg'),
+}
+
+const options = {
+    url : "https://app.nanonets.com/api/v2/OCR/Model/e9a95cc3-6ef9-4ac1-9754-e058086ccdbd/LabelFile/?async=false",
+    formData: form_data,
+    headers: {
+        'Authorization' : 'Basic ' + Buffer.from('4vPcRHbXU1RZ4f6IWkKktZ5QTgnIa0pt' + ':').toString('base64')
+    }
+}
+request.post(options, function(err, httpResponse, body) {
+    console.log(body);
+});
+
+
+
+
 
 router.get("/download/:nom", function(req, res) {
     let nom = req.params.nom;
@@ -434,7 +462,67 @@ router.post('/signup',  upload.single("file"), async (req, res) => {
 })
 
 
+// Ocr abaguishagggggggyyyyyyyyy ena li sna3tou el skiiiiiiipe
+router.post("/cardocr", upload.single('file') ,async(req, res, next) => {
+    try 
+   {
+       const rr = await ocr.licenseVerification(req.file.path).then((result) => {
+         //console.log(result.data.text);
+        
+         console.log(result.data.text)
+         
+         var PRENOM = result.data.text.indexOf("PRENOM")
+         var CLASSE = result.data.text.indexOf("CLASSE")
+         var IDENTIFIANT = result.data.text.indexOf("IDENTIFIANT")
+         //-- Nom ---------
+         var Nom = result.data.text.indexOf("NOM :")
+         console.log(Nom)
+         var endNom = result.data.text.indexOf("PRENOM")
+         console.log(endNom)
+         var finalNom = result.data.text.substring(Nom+6,endNom-5)
+         console.log(finalNom) //ZITOUN
+         //-- Nom end
+         //--Prenom
+         console.log(PRENOM)
+         var prenomStart = result.data.text.indexOf("PRENOM : ")
+         var PrenomEnd = result.data.text.indexOf("CLASSE")
+         var finalPreNom = result.data.text.substring(prenomStart+9,PrenomEnd-7)
+         console.log(finalPreNom)
+         //--Prenom
 
+         //--classe
+         console.log(CLASSE)
+         var classeStart = result.data.text.indexOf("CLASSE : ")
+         var classeEnd = result.data.text.indexOf("IDENTIFIANT")
+         var finalclasse = result.data.text.substring(classeStart+9,classeEnd-12)
+         console.log(finalclasse)
+         //--classe
+         //--Identifiant
+         console.log(IDENTIFIANT)
+         var identifiantStart = result.data.text.indexOf("IDENTIFIANT : ")
+         var identifiantEnd = result.data.text.indexOf("//")
+         var finalidentifiant = result.data.text.substring(identifiantStart+14,identifiantEnd-4)
+         console.log(finalidentifiant)
+         const ocrResp = {
+             FirstName: finalPreNom,
+             LastName : finalNom,
+             classe : finalclasse,
+             identifiant: finalidentifiant
+
+         }
+
+         
+         res.json(ocrResp)
+       
+     })
+     ;
+ 
+ }
+   catch (error) {
+     res.status(500).json({ message: error.message });
+ }
+
+ });
 
 
 
