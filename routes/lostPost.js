@@ -70,12 +70,38 @@ router.get("/", async(req, res, next) => {
         res.status(500).json({ message: error.message });
     }
 });
+router.get("/mylostFound/:type/:id", async(req, res, next) => {
+    let id = req.params.id
+    console.log(id);
+        console.log("hello",req.params)
+        try {
+            const lost = await LostPost.find({ 
+                $and: [
+                    { type: req.params.type },
+                    { email: id }
+                    
+                  ]
+                
+                });
+            res.json(lost);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    });
 
-router.get("/lostFound/:type", async(req, res, next) => {
-
+router.get("/lostFound/:type/:id", async(req, res, next) => {
+let id = req.params.id
+console.log(id);
     console.log("hello",req.params)
     try {
-        const lost = await LostPost.find({ type: req.params.type });
+        const lost = await LostPost.find({ 
+            $and: [
+                { type: req.params.type },
+                { email: {$ne:id} },
+                {state: false }
+              ]
+            
+            });
         res.json(lost);
     } catch (error) {
         res.status(500).json({ message: error.message });
