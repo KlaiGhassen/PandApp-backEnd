@@ -1,6 +1,44 @@
 var express = require("express");
 const Event = require("../models/eventPost");
+const multer = require("multer");
 var router = express.Router();
+
+const { POINT_CONVERSION_COMPRESSED } = require("constants");
+
+const picsPath = require("path").resolve(__dirname, "../uploads");
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./uploads");
+    },
+    filename: (req, file, cb) => {
+        var filetype = "";
+        var fileExtension = "";
+        if (file.mimetype === "image/gif") {
+            filetype = "image-";
+            fileExtension = "gif";
+        }
+        if (file.mimetype === "image/png") {
+            filetype = "image-";
+            fileExtension = "png";
+        }
+        if (file.mimetype === "image/jpeg") {
+            filetype = "image-";
+            fileExtension = "jpeg";
+        }
+        if (file.mimetype === "image/jpg") {
+            filetype = "image-";
+            fileExtension = "jpg";
+        }
+
+        cb(null, filetype + Date.now() + "." + fileExtension);
+        h = cb;
+    },
+});
+var upload = multer({
+    storage: storage,
+});
+
+
 /**
  * @swagger
 * tags:
@@ -81,7 +119,7 @@ router.get("/:id", getEvent, (req, res) => {
     res.json(res.event);
 });
 
-router.post("/", async(req, res, next) => {
+router.post("/",upload.single("file") ,async(req, res, next) => {
     const event = new Event({
         publisheId: req.body.publisheId,
         publishedAt: req.body.publishedAt,
@@ -95,6 +133,16 @@ router.post("/", async(req, res, next) => {
         title: req.body.title,
         rate: req.body.rate
     });
+    if (req.file) {
+        
+        req.file.filename = req.file.filename
+        event.banner = req.file.filename
+        console.log(event.banner)
+        
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",req.file)
+    } else{
+        cosnole.log("filllllllllllllllle problem")
+    }
 
     try {
         const newEvent = await event.save();
