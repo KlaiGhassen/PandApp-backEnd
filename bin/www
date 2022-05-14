@@ -50,11 +50,8 @@ io.on('connection',function(socket) {
     
         socket.join(`${roomName}`)
         console.log(`Username : ${userName} joined Room Name : ${roomName}`)
-        
-       
         // Let the other user get notification that user got into the room;
         // It can be use to indicate that person has read the messages. (Like turns "unread" into "read")
-
         //TODO: need to chose
         //io.to : User who has joined can get a event;
         //socket.broadcast.to : all the users except the user who has joined will get the message

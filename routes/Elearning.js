@@ -1,5 +1,7 @@
 var express = require("express");
 const Elearning = require("../models/Elearning");
+
+const ChatRoom = require("../models/chatRoom");
 var router = express.Router();
 
 router.get("/", async(req, res, next) => {
@@ -14,11 +16,31 @@ router.get("/byModule/:module", getLearningByModule, (req, res) => {
     res.json(res.elearning);
 });
 
-
+router.get("/chatroom", async(req, res, next) => {
+    try {
+console.log("hello ")
+        const chatRoom = await ChatRoom.find();
+        res.json(chatRoom);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+router.post("/chatroom", async(req, res, next) => {
+    console.log(req.body)
+    const elearning = new ChatRoom({
+        userName: req.body.userName,
+        chatRoom: req.body.chatRoom,
+    });
+    try {
+        const newchatRoom = await elearning.save();
+        res.status(201).json({ newchatRoom });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
 router.get("/:id", getElearning, (req, res) => {
     res.json(res.elearning);
 });
-
 
 router.post("/", async(req, res, next) => {
     const elearning = new Elearning({
