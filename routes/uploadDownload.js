@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const multer = require("multer");
+const User = require("../models/user");
 
 const picsPath = require("path").resolve(__dirname, "../uploads");
 
@@ -37,6 +38,16 @@ var storage = multer.diskStorage({
 });
 var upload = multer({
   storage: storage,
+});
+
+router.get("/download/user/:nom",  async function (req, res) {
+  let nom = req.params.nom;
+  
+  const user = await User.findOne({FirstName:req.params.nom});
+pic = user.profilePicture
+  const file = picsPath + "/" + pic;
+  console.log(file, "hy");
+  res.sendFile(file); // Set disposition and send it.
 });
 
 router.get("/download/:nom", function (req, res) {

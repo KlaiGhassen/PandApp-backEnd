@@ -16,10 +16,16 @@ router.get("/byModule/:module", getLearningByModule, (req, res) => {
     res.json(res.elearning);
 });
 
-router.get("/chatroom", async(req, res, next) => {
+router.get("/chatroom/:email", async(req, res, next) => {
     try {
 console.log("hello ")
-        const chatRoom = await ChatRoom.find();
+        const chatRoom = await ChatRoom.find({
+            $or: [
+            {emailPost:req.params.email},
+            {emailUser:req.params.email},
+
+        ]
+    } );
         res.json(chatRoom);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -30,6 +36,10 @@ router.post("/chatroom", async(req, res, next) => {
     const elearning = new ChatRoom({
         userName: req.body.userName,
         chatRoom: req.body.chatRoom,
+        userNameReciver: req.body.userNameReciver,
+        emailUser: req.body.emailUser,
+        emailPost: req.body.emailPost,
+        senderPic: req.body.senderPic
     });
     try {
         const newchatRoom = await elearning.save();

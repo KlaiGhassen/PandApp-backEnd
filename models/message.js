@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
-    content: {
+    userName: {
         type: String,
     },
     creted_at: {
@@ -9,11 +9,16 @@ const userSchema = new mongoose.Schema({
     default:Date.now()
     },
     
-    whoSend: {
+    messageContent: {
         type: String,
     },
-    toSend: {
+    roomName: {
         type: String,
+        unique: true
+    },
+   
+    viewType: {
+        type: Number,
     },
 
 
