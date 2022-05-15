@@ -80,7 +80,7 @@ async function getEventInt(req, res, next) {
             return res.status(404).json({ message: "cannot find eventInt" });
         }
     } catch (error) {
-        return res.status(500).json({ message: err.message });
+        return res.status(500).json({ message: error.message });
     }
     res.eventInt = eventInt;
     next();
