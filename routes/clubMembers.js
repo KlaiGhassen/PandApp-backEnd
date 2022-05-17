@@ -37,7 +37,8 @@ router.get("/findclubbyuser/:userEmail", async(req,res)=>{
 
 
 router.get("/:clubName", getClubMembers, (req, res) => {
-    res.json(res.club);
+    console.log(res.clubMembers);
+    res.json(res.clubMembers);
 });
 
 router.get("/findOne/:id", getOneById, (req, res) => {
@@ -48,6 +49,7 @@ router.post("/", async(req, res, next) => {
     const clubMembers = new ClubMembers({
         clubName: req.body.clubName,
         userEmail: req.body.userEmail,
+        userName: req.body.userName,
         memberPicture: req.body.memberPicture,
         state: req.body.state
     });
@@ -105,7 +107,7 @@ async function getClubMembers(req, res, next) {
     } catch (error) {
         return res.status(500).json({ message: err.message });
     }
-    res.clubMembers = clubMembers[0];
+    res.clubMembers = clubMembers;
     next();
 }
 
