@@ -20,11 +20,11 @@ router.get("/join/:state", async(req, res, next) => {
 });
 //.find({ state: req.params.state });
 
-router.get("/findclubbyuser/:userEmail", async(req,res)=>{
+router.get("/findclubbyuser/:userEmail/:clubName", async(req,res)=>{
     console.log(req.params);
 
     try {
-        const clubs = await ClubMembers.find({ userEmail: req.params.userEmail });
+        const clubs = await ClubMembers.find({ userEmail: req.params.userEmail, clubName:req.params.clubName });
         res.json(clubs);
         console.log(clubs)
     } catch (error) {
@@ -42,7 +42,7 @@ router.get("/:clubName", getClubMembers, (req, res) => {
 });
 
 router.get("/findOne/:id", getOneById, (req, res) => {
-    res.json(res.club);
+    res.json(res.clubMembers);
 });
 
 router.post("/", async(req, res, next) => {
@@ -51,7 +51,8 @@ router.post("/", async(req, res, next) => {
         userEmail: req.body.userEmail,
         userName: req.body.userName,
         memberPicture: req.body.memberPicture,
-        state: req.body.state
+        state: req.body.state,
+        name: req.body.name
     });
 
     try {
@@ -74,7 +75,7 @@ router.patch("/:id", getOneById, (req, res) => {
     }
 });
 
-router.delete("/:id", getOneById, async(req, res) => {
+router.delete("/:id", getOneByIdd, async(req, res) => {
     try {
         await res.clubMembers.remove();
         res.json({ message: "deleted club" });
@@ -107,11 +108,24 @@ async function getClubMembers(req, res, next) {
     } catch (error) {
         return res.status(500).json({ message: err.message });
     }
+    
     res.clubMembers = clubMembers;
     next();
 }
 
 async function getOneById(req, res, next) {
+    try {
+        clubMembers = await ClubMembers.find({id: req.params.id});
+        if (clubMembers == null) {
+            return res.status(404).json({ message: "cannot find " });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: err.message });
+    }
+    res.clubMembers = clubMembers;
+    next();
+}
+async function getOneByIdd(req, res, next) {
     try {
         clubMembers = await ClubMembers.findById(req.params.id);
         if (clubMembers == null) {

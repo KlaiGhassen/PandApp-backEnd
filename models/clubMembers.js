@@ -5,5 +5,6 @@ const userSchema = new mongoose.Schema({
     userName: String,
     memberPicture: String,
     state: Boolean,
+    name: String,
 });
 module.exports = mongoose.model("clubMembers", userSchema);
