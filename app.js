@@ -27,6 +27,8 @@ var EventInt = require("./routes/Eventint");
 var admin = require("./routes/admin");
 var messages = require("./routes/messages")
 var messages = require("./routes/messages");
+var clubChat = require("./routes/clubChat");
+var messageclub = require("./routes/Messageclub");
 var uploadDownload = require("./routes/uploadDownload");
 var clubMembersRouter = require("./routes/clubMembers");
 const swaggerJsDocs = require("swagger-jsdoc");
@@ -83,7 +85,8 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to DataBase"));
 
-
+app.use("/clubChat", clubChat);
+app.use("/messageclub", messageclub);
 app.use("/upload", uploadDownload);
 app.use("/auth", authUser);
 app.use("/authClub", authClub);
