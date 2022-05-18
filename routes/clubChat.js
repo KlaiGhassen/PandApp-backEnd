@@ -40,6 +40,7 @@ router.post("/", async(req, res, next) => {
     const clubChat = new ClubChat({
         clubName: req.body.clubName,
         esmElclub: req.body.esmElclub,
+        clubImage: req.body.clubImage
     });
 
     try {

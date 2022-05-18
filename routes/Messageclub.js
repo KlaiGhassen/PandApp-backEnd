@@ -36,18 +36,18 @@ router.get("/eventByUser/:userEmail", async(req, res, next) => {
 
 router.post("/", async(req, res, next) => {
     //console.log(req)
+    console.log(req.body)
     const messageclub = new Messageclub({
         textMessage: req.body.textMessage,
         userId: req.body.userId,
         time: Date.now(),
-        clubChat: req.body.clubChat
+        clubChat: req.body.clubChat,
+        userImage:req.body.userImage
     });
 
     try {
         const newMessageclub = await messageclub.save();
         const clubChat = await ClubChat.findById(req.body.clubChat)
-        console.log(clubChat)
-        console.log("zeb el 7out",clubChat.messageclubs)
         clubChat.messageclubs.push(newMessageclub)
         clubChat.save();
         

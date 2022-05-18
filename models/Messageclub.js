@@ -5,6 +5,7 @@ const MessageclubSchema = new Schema({
     userId: String,
     time: Date,
     clubChat: { type: Schema.Types.ObjectId, ref: 'clubChat' },
+    userImage: String,
     
     
 });
