@@ -64,7 +64,7 @@ router.post("/", async(req, res, next) => {
     }
 });
 
-router.patch("/:id", getOneById, (req, res) => {
+router.patch("/:id", getOneByIdd, (req, res) => {
     res.clubMembers.state = true;
     try {
         res.clubMembers.save().then((updatedClubMembers) => {
