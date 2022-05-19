@@ -37,6 +37,8 @@ var ocrcard = require("./routes/ocrcard");
 
 var app = express();
 
+
+
 // view engine setup
 
 const options = {

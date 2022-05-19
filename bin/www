@@ -89,6 +89,51 @@ io.on('connection',function(socket) {
         socket.broadcast.to(`${roomName}`).emit('updateChat',JSON.stringify(chatData)) // Need to be parsed into Kotlin object in Kotlin
     })
 
+    socket.on('newMessageClub',function(data) {
+      console.log('newMessage triggered')
+
+      const messageclub = JSON.parse(data)
+      const textMessage = messageclub.textMessage
+      const clubChat = messageclub.clubChat
+      const time = messageclub.time
+      const userId = messageclub.userId
+
+      console.log(`[clubRoom ${clubChat}] ${userId} : ${textMessage}`)
+      // Just pass the data that has been passed from the writer socket
+
+      const chatData = {
+          userId : userId,
+          textMessage : textMessage,
+          clubChat : clubChat,
+          time : time
+      }
+      socket.join(`${clubChat}`)
+      socket.broadcast.emit('updateChatClub',JSON.stringify(chatData)) // Need to be parsed into Kotlin object in Kotlin
+  })
+
+
+  socket.on('roomjn',function(data) {
+    console.log('newMessage triggered')
+
+    const messageclub = JSON.parse(data)
+    const clubChat = messageclub.clubChat
+
+
+
+   
+    socket.join(`${clubChat}`)
+    
+})
+
+  socket.on('disconectClub',function(data) {
+    console.log('unsubscribe trigged')
+    const messageclub = JSON.parse(data)
+      
+      const clubChat = messageclub.clubChat
+      
+    socket.leave(`${clubChat}`)
+})
+
     // socket.on('typing',function(roomNumber){ //Only roomNumber is needed here
     //     console.log('typing triggered')
     //     socket.broadcast.to(`${roomNumber}`).emit('typing')

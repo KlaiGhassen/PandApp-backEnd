@@ -3,6 +3,7 @@ const Messageclub = require("../models/Messageclub");
 const ClubChat = require("../models/clubChat");
 var router = express.Router();
 
+
 router.get("/", async(req, res, next) => {
     try {
         const messageclub = await Messageclub.find();
@@ -36,7 +37,7 @@ router.get("/eventByUser/:userEmail", async(req, res, next) => {
 
 router.post("/", async(req, res, next) => {
     //console.log(req)
-    console.log(req.body)
+    //console.log(req.body)
     const messageclub = new Messageclub({
         textMessage: req.body.textMessage,
         userId: req.body.userId,
