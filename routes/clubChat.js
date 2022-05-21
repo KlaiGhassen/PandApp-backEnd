@@ -12,6 +12,7 @@ router.get("/", async(req, res, next) => {
 });
 
 router.get("/:clubName", getClubChat, (req, res) => {
+    console.log(res.clubChat)
     res.json(res.clubChat);
 });
 
